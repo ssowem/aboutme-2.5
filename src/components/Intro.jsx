@@ -3,8 +3,8 @@ import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const Container = styled.div`
-  /* width: 100%;
-  height: 100%; */
+  width: 100%;
+  height: 100%;
   background-color: #fe8d1c;
 
   margin: 0;

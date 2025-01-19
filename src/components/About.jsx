@@ -18,7 +18,6 @@ const Title = styled.div`
 `;
 
 const TextWrap = styled.div`
-  /* border: 2px solid red; */
   height: 100%;
 
   display: flex;
@@ -68,27 +67,30 @@ const float = keyframes`
 
 const Text1 = styled.div`
   align-self: flex-end; //부모요소의 stretch 영향 받지않게함
-  margin-right: 30rem;
+  margin-right: 40rem;
 
   .text-wrap {
     font-size: 4.2rem;
     background-color: #ebebeb;
     padding: 10px 30px;
     border-radius: 40px;
-    opacity: 0;
-    animation: ${grow} 0.5s ease-out;
+
     animation-delay: 0s;
+    opacity: 0; 
     animation-fill-mode: forwards;
-   
-    span:first-child {
+    /* span:first-child {
       margin-right: 1rem;
-    }
+    } */
+
+      &.active {
+        animation: ${grow} 2s ease-out;
+        opacity: 1;
+      }
   }
 
   .emoji-wrap {
     position: relative;
     animation: ${float} 2s ease-in-out infinite;
-   
 
     &::before {
       content: '💫';
@@ -144,7 +146,7 @@ const Text3 = styled.div`
     padding: 10px 30px;
     border-radius: 60px;
     animation: ${grow} 0.5s ease-out;
-    animation-delay: .6s;
+    animation-delay: 0.6s;
     opacity: 0;
     animation-fill-mode: forwards;
   }
@@ -162,7 +164,7 @@ const Text4 = styled.div`
     padding: 10px 30px;
     border-radius: 40px;
     animation: ${grow} 0.5s ease-out;
-    animation-delay: .9s;
+    animation-delay: 0.9s;
     opacity: 0;
     animation-fill-mode: forwards;
   }
@@ -178,7 +180,7 @@ const Text4 = styled.div`
       font-size: 10rem;
       top: -8rem;
       left: -10rem;
-     z-index: 9999;
+      z-index: 9999;
     }
   }
 
@@ -187,14 +189,17 @@ const Text4 = styled.div`
   }
 `;
 
-function About() {
+function About({isAboutVisible}) {
+
+  // console.log("어바웃화면에서 확인된 isAboutVisible 값",isAboutVisible)
+
   return (
     <Container>
       <Title>ABOUT ME</Title>
 
       <TextWrap>
         <Text1>
-          <div className="text-wrap">
+          <div className={`text-wrap ${isAboutVisible=== true? 'active':''}`}>
             <span>#다정한</span>
             <span>#조화로운</span>
           </div>
