@@ -3,10 +3,9 @@ import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
 const Container = styled.div`
+  background-color: #fe8d1c;
   width: 100%;
   height: 100%;
-  background-color: #fe8d1c;
-
   margin: 0;
 
   display: flex;
@@ -15,7 +14,7 @@ const Container = styled.div`
 `;
 
 const MainText = styled.div`
-  padding: 100px 80px;
+  padding: 100px;
   width: 100%;
   height: 50%;
   color: #fff;
@@ -43,7 +42,6 @@ const Skills = styled.div`
   /* background-color: #266194; */
 
   display: flex;
-
   position: relative;
 `;
 
@@ -52,7 +50,7 @@ const SkillsLeft = styled.div`
   height: 100%;
   /* background-color: antiquewhite; */
   z-index: 9999;
-  padding: 0 0 100px 80px;
+  padding-left: 10rem;
 
   display: flex;
   flex-direction: column;

@@ -1,12 +1,13 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { useEffect, useState } from 'react';
 
 const Container = styled.div`
   background-color: #ffffff;
   width: 100%;
   height: 100%;
 
-  padding: 100px 80px;
+  padding: 100px;
 
   display: flex;
   flex-direction: column;
@@ -26,23 +27,30 @@ const TextWrap = styled.div`
   justify-content: center;
 `;
 
-const reveal = keyframes`
- 0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(0);
-  }
+const ZoomIn = keyframes`
+  0%{
+        opacity: 0;
+        transform: scale(0);
+    }
+    65%{
+        opacity: 1;
+        transform: scale(1);
+    }
+   
+    100%{
+        opacity: 1;
+        transform: scale(1);
+    }
 `;
 
 const grow = keyframes`
   0% {
-    transform: translateY(-50px);
+    transform: translateY(-70px);
     opacity: 0;
   }
 
   60% {
-    transform: translateY(10px);
+    transform: translateY(20px);
     opacity: 1;
   }
 
@@ -74,18 +82,17 @@ const Text1 = styled.div`
     background-color: #ebebeb;
     padding: 10px 30px;
     border-radius: 40px;
+    transform: scale(0);
 
-    animation-delay: 0s;
-    opacity: 0; 
-    animation-fill-mode: forwards;
     /* span:first-child {
       margin-right: 1rem;
     } */
 
-      &.active {
-        animation: ${grow} 2s ease-out;
-        opacity: 1;
-      }
+    &.active {
+      opacity: 1;
+      animation: ${ZoomIn} 1s ease-in-out 0s;
+      animation-fill-mode: forwards;
+    }
   }
 
   .emoji-wrap {
@@ -107,18 +114,19 @@ const Text2 = styled.div`
   align-self: flex-start;
   margin-left: 32rem;
 
-  /* animation: ${reveal} 3s cubic-bezier(0.77, 0, 0.175, 1) forwards; */
-
   .text-wrap {
     font-size: 6.2rem;
     background-color: #fe8d1c;
     color: #fff;
     padding: 10px 30px;
     border-radius: 60px;
-    animation: ${grow} 0.5s ease-out;
-    animation-delay: 0.3s;
-    opacity: 0;
-    animation-fill-mode: forwards;
+    transform: scale(0);
+
+    &.active {
+      opacity: 1;
+      animation: ${ZoomIn} 1s ease-in-out 0.3s;
+      animation-fill-mode: forwards;
+    }
   }
 
   .emoji-wrap {
@@ -145,10 +153,14 @@ const Text3 = styled.div`
     color: #fff;
     padding: 10px 30px;
     border-radius: 60px;
-    animation: ${grow} 0.5s ease-out;
-    animation-delay: 0.6s;
     opacity: 0;
-    animation-fill-mode: forwards;
+    transform: scale(0);
+
+    &.active {
+      opacity: 1;
+      animation: ${ZoomIn} 1s ease-in-out 0.6s;
+      animation-fill-mode: forwards;
+    }
   }
 `;
 
@@ -163,10 +175,17 @@ const Text4 = styled.div`
     background-color: #ebebeb;
     padding: 10px 30px;
     border-radius: 40px;
-    animation: ${grow} 0.5s ease-out;
-    animation-delay: 0.9s;
+    /* animation: ${grow} 4s ease-out; */
+
     opacity: 0;
-    animation-fill-mode: forwards;
+    transform: scale(0);
+   
+
+    &.active {
+      opacity: 1;
+      animation: ${ZoomIn} 1s ease-in-out 0.9s;
+      animation-fill-mode: forwards;
+    }
   }
 
   .emoji-wrap {
@@ -189,8 +208,7 @@ const Text4 = styled.div`
   }
 `;
 
-function About({isAboutVisible}) {
-
+function About({ isAboutVisible }) {
   // console.log("어바웃화면에서 확인된 isAboutVisible 값",isAboutVisible)
 
   return (
@@ -199,7 +217,9 @@ function About({isAboutVisible}) {
 
       <TextWrap>
         <Text1>
-          <div className={`text-wrap ${isAboutVisible=== true? 'active':''}`}>
+          <div
+            className={`text-wrap ${isAboutVisible === true ? 'active' : ''}`}
+          >
             <span>#다정한</span>
             <span>#조화로운</span>
           </div>
@@ -210,7 +230,9 @@ function About({isAboutVisible}) {
         </Text1>
 
         <Text2>
-          <div className="text-wrap">
+          <div
+            className={`text-wrap ${isAboutVisible === true ? 'active' : ''}`}
+          >
             <p>상호간의 조화와 균형을 중요시하며,</p>
           </div>
 
@@ -218,7 +240,9 @@ function About({isAboutVisible}) {
         </Text2>
 
         <Text3>
-          <div className="text-wrap">
+          <div
+            className={`text-wrap ${isAboutVisible === true ? 'active' : ''}`}
+          >
             <p>모든일에 끈기와 열정을 갖고 최선을 다합니다.</p>
           </div>
         </Text3>
@@ -227,7 +251,9 @@ function About({isAboutVisible}) {
           <div className="emoji-wrap">
             {/* <span className="emoji">🙋🏻‍</span> */}
           </div>
-          <div className="text-wrap">
+          <div
+            className={`text-wrap ${isAboutVisible === true ? 'active' : ''}`}
+          >
             <span>#겸손함</span>
             <span>#책임감</span>
           </div>
