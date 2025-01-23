@@ -11,6 +11,7 @@ const Container = styled.div`
 
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
 
 const Title = styled.div`

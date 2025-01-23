@@ -11,10 +11,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 62.5%;
+  overflow: hidden;
 `;
 
 const MainText = styled.div`
-  padding: 100px;
+  padding: 10rem;
   width: 100%;
   height: 50%;
   color: #fff;

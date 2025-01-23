@@ -4,20 +4,20 @@ import styled from '@emotion/styled';
 import Intro from './components/intro';
 import Portfolio from './components/Portfolio';
 import About from './components/About';
-// import Intro from './components/intro';
+import { throttle } from 'lodash';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  transition: transform 0.5s ease-in-out; /* 부드러운 애니메이션 */
+  transition: transform 0.5s ease-in-out;
   will-change: transform;
   width: 100vw;
-  height: auto;
 `;
 
 const Section = styled.div`
+  height: ${(props) => props.screenHeight}px;
   height: 100vh;
-  background-color: #f0f0f0;
+  background-color: #7a2c2c;
   border: 1px solid #ddd;
   box-sizing: border-box;
 `;
@@ -28,29 +28,48 @@ function App() {
   const saveIndex = Number(localStorage.getItem('activeIndex')) || 0;
   const [activeIndex, setActiveIndex] = useState(saveIndex);
   const [isAboutVisible, setIsAboutVisible] = useState(false);
-  const [isScrollAtStart, setIsScrollAtStart] = useState(true); //가로스크롤0인지여부
+  const [screenHeight, SetScreenHeight] = useState(window.innerHeight);
+  const [isScrollAtStart, setIsScrollAtStart] = useState(false);
 
-  // 포폴 컴포넌트에서 가로스크롤 상태를 업데이트하는 함수
-  const updateScrollState = (isAtStart) => {
-    setIsScrollAtStart(isAtStart);
+  useEffect(() => {
+    //창크기 바뀔때 동작하는 함수
+    const handleResize = () => {
+      SetScreenHeight(window.innerHeight); // screenHeight 상태값을 업데이트
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // 포트폴리오 컴포넌트 스크롤값 업데이트 함수
+  const handlePortfolioScroll = (scrollValue) => {
+    setIsScrollAtStart(scrollValue);
+    console.log('확인됨여', isScrollAtStart);
   };
 
   //마우스 휠 감지후 동작
-  const handleScroll = (event) => {
-    const { deltaY } = event;
+  const handleScroll = throttle((event) => {
+    const { deltaY } = event; // 세로스크롤 방향 확인 (위/아래)
     const totalSections = containerRef.current.children.length;
 
-    
-    // activeIndex가 0이거나1일때 (2아래일때)
+    // 아래로 스크롤
     if (deltaY > 0 && activeIndex < totalSections - 1) {
-      //아래로 스크롤
       setActiveIndex((prev) => prev + 1);
-    } else if (deltaY < 0 && activeIndex > 0 && isScrollAtStart) {
-      //activeIndex가 1이거나 2일때
-      // 위로 스크롤
-      setActiveIndex((prev) => prev - 1);
     }
-  };
+
+    // 위로스크롤
+    if (deltaY < 0 && activeIndex > 0) {
+      // 포폴 영역이면서 isScrollAtStart === true일때
+      if (activeIndex === 2 && isScrollAtStart) {
+        setActiveIndex((prev) => prev - 1);
+      } else if (activeIndex !== 2) {
+        setActiveIndex((prev) => prev - 1);
+      }
+    }
+  }, 1000);
 
   useEffect(() => {
     localStorage.setItem('activeIndex', activeIndex);
@@ -66,21 +85,22 @@ function App() {
 
   return (
     <Container
-      className="slider"
       onWheel={handleScroll}
       ref={containerRef}
-      style={{ transform: `translateY(-${activeIndex * 100}vh)` }}
+      style={{
+        transform: `translateY(-${activeIndex * screenHeight}px)`,
+      }}
     >
-      <Section>
+      <Section screenHeight={screenHeight}>
         <Intro />
       </Section>
 
-      <Section>
+      <Section screenHeight={screenHeight}>
         <About isAboutVisible={isAboutVisible} />
       </Section>
 
-      <Section>
-        <Portfolio onScrollChange={updateScrollState}/>
+      <Section screenHeight={screenHeight}>
+        <Portfolio scrollUpdate={handlePortfolioScroll} />
       </Section>
     </Container>
   );
