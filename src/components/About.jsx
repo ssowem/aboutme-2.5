@@ -20,8 +20,8 @@ const Title = styled.div`
 `;
 
 const TextWrap = styled.div`
+  width: 100%;
   height: 100%;
-
   display: flex;
   flex-direction: column;
   gap: 3.5rem;
@@ -75,14 +75,15 @@ const float = keyframes`
 `;
 
 const Text1 = styled.div`
-  align-self: flex-end; //부모요소의 stretch 영향 받지않게함
-  margin-right: 40rem;
+  //부모요소의 stretch 영향 받지않게함
+  align-self: flex-end;
+  margin-right: 38rem;
 
   .text-wrap {
-    font-size: 4.2rem;
     background-color: #ebebeb;
-    padding: 10px 30px;
-    border-radius: 40px;
+    font-size: 3.8rem;
+    padding: 1.5rem 4rem;
+    border-radius: 5rem;
     transform: scale(0);
 
     /* span:first-child {
@@ -113,13 +114,13 @@ const Text1 = styled.div`
 
 const Text2 = styled.div`
   align-self: flex-start;
-  margin-left: 32rem;
+  margin-left: 18rem;
 
   .text-wrap {
-    font-size: 6.2rem;
     background-color: #fe8d1c;
     color: #fff;
-    padding: 10px 30px;
+    font-size: 4.8rem;
+    padding: 1.5rem 6rem;
     border-radius: 60px;
     transform: scale(0);
 
@@ -146,13 +147,13 @@ const Text2 = styled.div`
 
 const Text3 = styled.div`
   align-self: flex-start;
-  margin-left: 20rem;
+  margin-left: 36rem;
 
   .text-wrap {
-    font-size: 6.2rem;
     background-color: #000000;
     color: #fff;
-    padding: 10px 30px;
+    font-size: 4.8rem;
+    padding: 1.5rem 6rem;
     border-radius: 60px;
     opacity: 0;
     transform: scale(0);
@@ -166,21 +167,18 @@ const Text3 = styled.div`
 `;
 
 const Text4 = styled.div`
-  align-self: flex-start;
-  margin-left: 54rem;
+  align-self: center;
+  margin-right: 20rem;
 
   position: relative;
 
   .text-wrap {
-    font-size: 4.2rem;
     background-color: #ebebeb;
-    padding: 10px 30px;
-    border-radius: 40px;
-    /* animation: ${grow} 4s ease-out; */
-
+    font-size: 3.8rem;
+    padding: 1.5rem 4rem;
+    border-radius: 5rem;
     opacity: 0;
     transform: scale(0);
-   
 
     &.active {
       opacity: 1;

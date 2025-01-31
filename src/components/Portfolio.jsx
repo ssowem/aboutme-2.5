@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 const Container = styled.div`
   background-color: #ffffff;
@@ -24,7 +24,7 @@ const CardWrap = styled.div`
   gap: 2rem;
 
   overflow: hidden;
-  padding-top: 1rem;
+  /* margin-top: 1rem; */
 `;
 
 const CardBox = styled.div`
@@ -33,23 +33,25 @@ const CardBox = styled.div`
   gap: 2rem;
 
   .card {
-    border: 2px solid red;
     overflow: hidden;
     width: 720px;
+    height: 520px;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
     cursor: pointer;
     position: relative;
+    border: 1px solid #fff;
 
     .thumbnail {
-      background-color: #000000;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
 
       img {
-        opacity: 0.8;
+        transition: transform 1s ease-out;
         width: 100%;
         height: 100%;
-        /* display: block; */
       }
     }
 
@@ -59,58 +61,92 @@ const CardBox = styled.div`
       height: 8rem;
       display: flex;
       justify-content: space-between;
-      background-color: #000000;
+      align-items: center;
+      background-color: #fe8d1c;
 
       padding: 0 1rem 1rem 0;
       border-top-right-radius: 1rem;
       border-top-left-radius: 1rem;
-
-      /* transform: translateY(2rem); */
+      transition: 1s ease-out;
+      transform: translateY(2rem);
 
       span {
         color: #ffffff;
         font-size: 2.4rem;
         font-weight: 600;
-        margin: 1rem 0 0 2rem;
+        margin-left: 2rem;
+        transition: 1s ease-out;
       }
 
       .skills-wrap {
         display: flex;
         gap: 1rem;
-        height: 4rem;
-        background-color: aqua;
         margin-right: 1rem;
-        
+        justify-content: center;
+        border: 1px solid #bdbdbd;
+        border-radius: 0.5rem;
+        transition: 1s ease-out;
+        background-color: #000;
       }
 
       .skills-wrap img {
-        width: 4rem;
-
-        /* border: 3px solid #fff; */
-        border-radius: 0.5rem;
-        border: 1px solid #ffffff;
-        padding: .5rem;
+        width: 3rem;
+        height: 3rem;
+        padding: 0.5rem;
       }
+    }
+
+    .modal-box {
+      opacity: 0;
+      transition: .2s;
+
+      position: absolute;
+      width: 420px;
+      height: auto;
+      background-color: #ffffff;
+
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -40%);
+      /* padding: 3rem; */
+      color: #000000;
+      padding: 4rem 4rem;
+      border-radius: 1rem;
+      border: 2px solid #000;
+
+      span {
+        font-size: 1.8rem;
+        font-weight: 600;
+        display: inline-block;
+        line-height: 1;
+      }
+
+      p {
+        font-size: 1.6rem;
+        margin-top: 1.2rem;
+        
+      } 
     }
   }
 
+  .card:hover .modal-box{
+    opacity: 1;
+  }
+
   .card:hover .tag-box {
-    /* transform: translateY(1rem); */
-    transition: 1s;
+    transform: translateY(1rem);
+  }
+
+  .card:hover .thumbnail {
+    background-color: #000000;
   }
 
   .card:hover .thumbnail img {
-    opacity: 1;
-    transition: 1s;
+    opacity: 0.3;
+    transform: scale(1.1);
+    /* transform: translateX(-10rem); */
   }
 
-  .card.two {
-    height: 50%;
-  }
-
-  .card.single {
-    height: 100%;
-  }
 `;
 
 function Portfolio({ scrollUpdate }) {
@@ -191,50 +227,95 @@ function Portfolio({ scrollUpdate }) {
                 <img src="src/images/react-js-icon.png" />
               </div>
             </div>
-          </div>
-        </CardBox>
 
-        <CardBox>
-          <div className="card single">
-            <div className="text-box">
-              <span>TO DO LIST</span>
+            <div className="modal-box">
+              <span>📌Overveiw</span>
+
+              <p>
+                리액트를 사용해서 만든 포트폴리오 입니다. 백엔드 api 협업 경험이
+                있으며, 다양한 경험을 할 수 있었던 포트폴리오 중 하나입니다
+              </p>
             </div>
           </div>
         </CardBox>
 
         <CardBox>
-          <div className="card single">
-            <img src="src/images/todolist.png" />
-            <div className="text-box">
+          <div className="card">
+            <div className="thumbnail">
+              <img src="src/images/todolist.png" />
+            </div>
+
+            <div className="tag-box">
               <span>TO DO LIST</span>
+
+              <div className="skills-wrap">
+                <img src="src/images/react-js-icon.png" />
+              </div>
             </div>
           </div>
         </CardBox>
 
         <CardBox>
-          <div className="card single">
-            <img src="src/images/todolist.png" />
-            <div className="text-box">
+          <div className="card">
+            <div className="thumbnail">
+              <img src="src/images/todolist.png" />
+            </div>
+
+            <div className="tag-box">
               <span>TO DO LIST</span>
+
+              <div className="skills-wrap">
+                <img src="src/images/react-js-icon.png" />
+              </div>
             </div>
           </div>
         </CardBox>
 
         <CardBox>
-          <div className="card single">
-            <img src="src/images/todolist.png" />
-            <div className="text-box">
+          <div className="card">
+            <div className="thumbnail">
+              <img src="src/images/todolist.png" />
+            </div>
+
+            <div className="tag-box">
               <span>TO DO LIST</span>
+
+              <div className="skills-wrap">
+                <img src="src/images/react-js-icon.png" />
+              </div>
             </div>
           </div>
         </CardBox>
 
         <CardBox>
-          <div className="card two">
-            <span>메가박스</span>
+          <div className="card">
+            <div className="thumbnail">
+              <img src="src/images/todolist.png" />
+            </div>
+
+            <div className="tag-box">
+              <span>TO DO LIST</span>
+
+              <div className="skills-wrap">
+                <img src="src/images/react-js-icon.png" />
+              </div>
+            </div>
           </div>
-          <div className="card two">
-            <span>스포티파이</span>
+        </CardBox>
+
+        <CardBox>
+          <div className="card">
+            <div className="thumbnail">
+              <img src="src/images/todolist.png" />
+            </div>
+
+            <div className="tag-box">
+              <span>TO DO LIST</span>
+
+              <div className="skills-wrap">
+                <img src="src/images/react-js-icon.png" />
+              </div>
+            </div>
           </div>
         </CardBox>
       </CardWrap>
