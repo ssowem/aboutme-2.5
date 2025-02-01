@@ -7,15 +7,13 @@ import GuestbookForm from './GuestbookForm';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const Container = styled.div`
-
   display: flex;
   gap: 1rem;
-  min-width: 40px;
-  max-width: ${(props) => (props.sidebarVisible ? '100%' : '40px')};
-  transition: max-width 0.5s ease-in-out;
+  width: ${(props) => (props.sidebarVisible ? '360px' : '40px')};
+  transition: width 0.3s ease-in-out;
 
   &:hover {
-    max-width: 360px;
+    width: 360px;
   }
 `;
 
@@ -88,14 +86,6 @@ const ContentWrap = styled.div`
             text-overflow: ellipsis;
             overflow: hidden;
           }
-
-          .text {
-            border: 1px solid pink;
-            white-space: nowrap;
-            max-width: 17.2rem;
-            text-overflow: ellipsis;
-            overflow: hidden;
-          }
         }
 
         .list-item:after {
@@ -133,23 +123,35 @@ const Button = styled.button`
   justify-content: center;
 `;
 
+const PaginationWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const AllButton = styled.button`
+  cursor: pointer;
+  border: 1px solid #000;
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  color: #000;
+`;
 const PaginationNav = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 0.3rem;
 
   button {
     background-color: transparent;
-    border: none;
-    font-size: 2.2rem;
+    border: 1px solid #e7821d;
+    border-radius: 50%;
+    padding: 0.2rem;
     display: flex;
     align-items: center;
-    color: #fff;
-  }
 
-  span {
-    font-size: 1.4rem;
-    color: #fff;
+    color: #000000;
+    font-size: 1.8rem;
   }
 `;
 
@@ -251,15 +253,18 @@ function Sidebar({ sidebarVisible }) {
               </div>
             </div>
 
-            <PaginationNav>
-              <button className="prev-button">
-                <IoIosArrowBack />
-              </button>
-              <span>1/1</span>
-              <button className="next-button">
-                <IoIosArrowForward />
-              </button>
-            </PaginationNav>
+            <PaginationWrap>
+              <AllButton>전체보기</AllButton>
+              <PaginationNav>
+                <button className="prev-button">
+                  <IoIosArrowBack />
+                </button>
+
+                <button className="next-button">
+                  <IoIosArrowForward />
+                </button>
+              </PaginationNav>
+            </PaginationWrap>
           </div>
         </div>
       </ContentWrap>

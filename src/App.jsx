@@ -38,7 +38,7 @@ const SidebarWrap = styled.div`
   padding: 1rem;
   box-sizing: border-box;
   overflow: hidden;
-
+  transition: width 0.3s ease-in-out;
 `;
 
 function App() {
@@ -114,10 +114,10 @@ function App() {
 
     if(sidebarVisible === false) {
       setSidebarVisible(true);
-      console.log(sidebarVisible)
+      console.log("true로변경",sidebarVisible)
     } else {
       setSidebarVisible(false);
-      console.log(sidebarVisible)
+      console.log("false로변경",sidebarVisible)
     }
   }
   
