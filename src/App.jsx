@@ -4,7 +4,8 @@ import styled from '@emotion/styled';
 import Intro from './components/intro';
 import Portfolio from './components/Portfolio';
 import About from './components/About';
-import { throttle } from 'lodash';
+import { set, throttle } from 'lodash';
+import Sidebar from './components/Sidebar';
 
 const Container = styled.div`
   display: flex;
@@ -18,26 +19,39 @@ const Container = styled.div`
 const Section = styled.div`
   height: ${(props) => props.screenHeight}px;
   height: 100vh;
-  background-color: #7a2c2c;
   border: 1px solid #ddd;
   box-sizing: border-box;
 `;
 
+const SidebarWrap = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  background-color: #fe8d1c;
+
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  overflow: hidden;
+
+`;
+
 function App() {
   const containerRef = useRef(null);
-  // localStorage은 문자열로 저장되고 반환된다. saveIndex를 숫자로 반환하기위해 Number를 사용
+  // 세션스토리지 문자열로 저장되고 반환된다. saveIndex를 숫자로 반환하기위해 Number를 사용
   const saveIndex = Number(sessionStorage.getItem('activeIndex')) || 0;
   const [activeIndex, setActiveIndex] = useState(saveIndex);
   const [isAboutVisible, setIsAboutVisible] = useState(false);
   const [screenHeight, SetScreenHeight] = useState(window.innerHeight);
   const [isScrollAtStart, setIsScrollAtStart] = useState(false);
-  console.log("localStorage에서 가져온 activeIndex:", sessionStorage.getItem('activeIndex'));
 
-  useEffect(() => {
-    console.log("현재 activeIndex:", activeIndex);
-    console.log("현재 screenHeight:", screenHeight);
-    console.log("적용될 transform 값:", `translateY(-${activeIndex * screenHeight}px)`);
-  }, [activeIndex, screenHeight]);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+
   useEffect(() => {
     //창크기 바뀔때 동작하는 함수
     const handleResize = () => {
@@ -62,9 +76,13 @@ function App() {
     const { deltaY } = event; // 세로스크롤 방향 확인 (위/아래)
     const totalSections = containerRef.current.children.length;
 
+
+    // 휠 동작될때ㅑ 사이드바 상태 false 변경
+    setSidebarVisible(false);
     // 아래로 스크롤
     if (deltaY > 0 && activeIndex < totalSections - 1) {
-      setActiveIndex((prev) => prev + 1);
+      // activeIndex가 2보다 작으면 1증가하게하고 2이상이면 증가시키지않고 유지(최대값을 2로제한하기)
+      setActiveIndex((prev) => (prev < 2 ? prev + 1 : prev));
     }
 
     // 위로스크롤
@@ -90,27 +108,47 @@ function App() {
     }
   }, [activeIndex]);
 
+
+  // sidebar 클릭했을때 동작 (너비 변경되게함)
+  const HandleSidebar = () => {
+
+    if(sidebarVisible === false) {
+      setSidebarVisible(true);
+      console.log(sidebarVisible)
+    } else {
+      setSidebarVisible(false);
+      console.log(sidebarVisible)
+    }
+  }
+  
+
   return (
-    <Container
-      onWheel={handleScroll}
-      ref={containerRef}
-      style={{
-        transform: `translateY(-${activeIndex * screenHeight}px)`,
-      }}
-    >
-      <Section screenHeight={screenHeight}>
-        <Intro />
-      </Section>
+    <>
+      <Container
+        onWheel={handleScroll}
+        ref={containerRef}
+        style={{
+          transform: `translateY(-${activeIndex * screenHeight}px)`,
+        }}
+      >
+        <Section screenHeight={screenHeight}>
+          <Intro />
+        </Section>
 
-      <Section screenHeight={screenHeight}>
-        <About isAboutVisible={isAboutVisible} />
-      </Section>
+        <Section screenHeight={screenHeight}>
+          <About isAboutVisible={isAboutVisible} />
+        </Section>
 
-      <Section screenHeight={screenHeight}>
-        <Portfolio scrollUpdate={handlePortfolioScroll} />
-      </Section>
-      
-    </Container>
+        <Section screenHeight={screenHeight}>
+          <Portfolio scrollUpdate={handlePortfolioScroll} />
+        </Section>
+      </Container>
+
+      <SidebarWrap onClick={HandleSidebar} >
+        <Sidebar sidebarVisible={sidebarVisible}/>
+  
+      </SidebarWrap>
+    </>
   );
 }
 
