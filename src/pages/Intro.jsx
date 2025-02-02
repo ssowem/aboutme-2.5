@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 const Container = styled.div`
   background-color: #fe8d1c;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   margin: 0;
 
   display: flex;
@@ -19,6 +19,7 @@ const MainText = styled.div`
   width: 100%;
   height: 50%;
   color: #fff;
+  
 `;
 
 const MainTextLine1 = styled.div`

@@ -3,14 +3,14 @@ import styled from '@emotion/styled';
 const FormContainer = styled.div`
   margin-top: 2rem;
   width: 100%;
-  height: auto;
+  height: 100vh;
   background-color: #f7f2ed;
-  border: 1px solid #000;
+  border: 1px solid #979797;
   padding: 3rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border-radius: 1rem;
+  border-radius: 0.4rem;
 `;
 
 const InputWrap = styled.div`

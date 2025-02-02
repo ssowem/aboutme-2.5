@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 const Container = styled.div`
   background-color: #ffffff;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding: 10rem 0 10rem 10rem;
   display: flex;
   flex-direction: column;
@@ -12,9 +12,10 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
+  font-family: 'Lexend', serif;
   font-size: 8.2rem;
   font-weight: 800;
-  color: #000000;
+  color: #1a1a1a;
 `;
 
 const CardWrap = styled.div`
@@ -98,7 +99,7 @@ const CardBox = styled.div`
 
     .modal-box {
       opacity: 0;
-      transition: .2s;
+      transition: 0.2s;
 
       position: absolute;
       width: 420px;
@@ -124,12 +125,11 @@ const CardBox = styled.div`
       p {
         font-size: 1.6rem;
         margin-top: 1.2rem;
-        
-      } 
+      }
     }
   }
 
-  .card:hover .modal-box{
+  .card:hover .modal-box {
     opacity: 1;
   }
 
@@ -146,7 +146,6 @@ const CardBox = styled.div`
     transform: scale(1.1);
     /* transform: translateX(-10rem); */
   }
-
 `;
 
 function Portfolio({ scrollUpdate }) {

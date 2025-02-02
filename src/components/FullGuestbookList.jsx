@@ -13,20 +13,32 @@ const ListItem = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 0.2rem;
   padding: 2rem 4rem;
-  font-size: 1.4rem;
   background-color: #f7f2ed;
   border-radius: 0.4rem;
-  border: 1px solid #dadada;
+  border: 1px solid #979797;
   /* box-shadow: 2px 2px 6px 2px rgba(99, 99, 99, 0.2); */
 
   .guest-info {
     display: flex;
+    align-items: center;
     gap: 0.5rem;
+
+    .guest-name {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .guest-date,
+    .guest-time {
+      font-size: 1.2rem;
+    }
   }
 
   .guest-message {
+    font-size: 1.4rem;
     width: 100%;
     max-width: 1400px;
     white-space: nowrap;
@@ -49,13 +61,21 @@ const DeleteButton = styled.button`
   font-size: 2rem;
   display: flex;
   color: #d64747;
-  
+`;
+
+const UserEmoji = styled.span`
+  margin-right: 0.5rem;
+  &::after {
+    content: '🧒🏻';
+    font-size: 3rem;
+  }
 `;
 
 function FullGuestbookList() {
   return (
     <ListContainer>
       <ListItem>
+        <UserEmoji />
         <GuestInfoWrap>
           <div className="guest-info">
             <div className="guest-name">이아무개</div>
@@ -73,6 +93,7 @@ function FullGuestbookList() {
       </ListItem>
 
       <ListItem>
+        <UserEmoji />
         <GuestInfoWrap>
           <div className="guest-info">
             <div className="guest-name">이아무개</div>
@@ -80,12 +101,11 @@ function FullGuestbookList() {
             <div className="guest-time">18:12</div>
           </div>
           <div className="guest-message">
-            글자수 제한하기
+            글자수 제한하기 안녕하세요 안녕하세요 안녕하세요 안녕하세요
             안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
+            안녕하세요 안녕하세요안녕하세요 안녕하세요 안녕하세요 안녕하세요
             안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요
+            안녕하세요 안녕하세요 안녕하세요 안녕하세요
           </div>
         </GuestInfoWrap>
 
@@ -94,8 +114,8 @@ function FullGuestbookList() {
         </DeleteButton>
       </ListItem>
 
-      
       <ListItem>
+        <UserEmoji />
         <GuestInfoWrap>
           <div className="guest-info">
             <div className="guest-name">이아무개</div>
@@ -103,12 +123,11 @@ function FullGuestbookList() {
             <div className="guest-time">18:12</div>
           </div>
           <div className="guest-message">
-            글자수 제한하기
+            글자수 제한하기 안녕하세요 안녕하세요 안녕하세요 안녕하세요
             안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
+            안녕하세요 안녕하세요안녕하세요 안녕하세요 안녕하세요 안녕하세요
             안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요
+            안녕하세요 안녕하세요 안녕하세요 안녕하세요
           </div>
         </GuestInfoWrap>
 
@@ -117,8 +136,8 @@ function FullGuestbookList() {
         </DeleteButton>
       </ListItem>
 
-      
       <ListItem>
+        <UserEmoji />
         <GuestInfoWrap>
           <div className="guest-info">
             <div className="guest-name">이아무개</div>
@@ -126,12 +145,11 @@ function FullGuestbookList() {
             <div className="guest-time">18:12</div>
           </div>
           <div className="guest-message">
-            글자수 제한하기
+            글자수 제한하기 안녕하세요 안녕하세요 안녕하세요 안녕하세요
             안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
+            안녕하세요 안녕하세요안녕하세요 안녕하세요 안녕하세요 안녕하세요
             안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요
+            안녕하세요 안녕하세요 안녕하세요 안녕하세요
           </div>
         </GuestInfoWrap>
 

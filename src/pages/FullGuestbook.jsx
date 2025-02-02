@@ -1,12 +1,11 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import FullGuestbookForm from './FullGuestbookForm';
-import FullGuestbookList from './FullGuestbookList';
+import FullGuestbookForm from '../components/FullGuestbookForm';
+import FullGuestbookList from '../components/FullGuestbookList';
 
 const Container = styled.div`
-  /* background-color: #e67272; */
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding: 5rem 7rem;
   display: flex;
   flex-direction: column;
@@ -15,8 +14,10 @@ const Container = styled.div`
 
 const Title = styled.span`
   line-height: 1;
-  color: #000000;
+  color: #1a1a1a;
+
   .main {
+    font-family: 'Lexend', serif;
     font-size: 8.2rem;
     font-weight: 800;
   }
@@ -25,7 +26,6 @@ const Title = styled.span`
     font-size: 1.8rem;
   }
 `;
-
 
 function FullGuestbook() {
   return (
@@ -37,7 +37,6 @@ function FullGuestbook() {
 
       <FullGuestbookForm />
       <FullGuestbookList />
-
     </Container>
   );
 }

@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import styled from '@emotion/styled';
-import Intro from './components/intro';
-import Portfolio from './components/Portfolio';
-import About from './components/About';
+import Intro from './pages/intro';
+import Portfolio from './pages/Portfolio';
+import About from './pages/About';
 import { throttle } from 'lodash';
 import Sidebar from './components/Sidebar';
-import FullGuestbook from './components/FullGuestbook';
+import FullGuestbook from './pages/FullGuestbook';
+import StickyNav from './components/StickyNav';
+import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -76,7 +78,6 @@ function App() {
     const { deltaY } = event; // 세로스크롤 방향 확인 (위/아래)
     const totalSections = containerRef.current.children.length;
 
-
     // 휠 동작될때ㅑ 사이드바 상태 false 변경
     setSidebarVisible(false);
     // 아래로 스크롤
@@ -108,22 +109,19 @@ function App() {
     }
   }, [activeIndex]);
 
-
   // sidebar 클릭했을때 동작 (너비 변경되게함)
   const HandleSidebar = () => {
-
-    if(sidebarVisible === false) {
+    if (sidebarVisible === false) {
       setSidebarVisible(true);
-      console.log("true로변경",sidebarVisible)
+      console.log('true로변경', sidebarVisible);
     } else {
       setSidebarVisible(false);
-      console.log("false로변경",sidebarVisible)
+      console.log('false로변경', sidebarVisible);
     }
-  }
-  
+  };
 
   return (
-    <>
+    <BrowserRouter>
       <Container
         onWheel={handleScroll}
         ref={containerRef}
@@ -131,27 +129,35 @@ function App() {
           transform: `translateY(-${activeIndex * screenHeight}px)`,
         }}
       >
-        <Section screenHeight={screenHeight}>
-          <Intro />
-        </Section>
-
-        <Section screenHeight={screenHeight}>
-          <About isAboutVisible={isAboutVisible} />
-        </Section>
-
-        <Section screenHeight={screenHeight}>
-          <Portfolio scrollUpdate={handlePortfolioScroll} />
-        </Section>
-
-        <Section>
-          <FullGuestbook />
-        </Section>
+        <Routes>
+          <Route path="/" element={<Intro screenHeight={screenHeight} />} />
+          <Route
+            path="/about"
+            element={
+              <About
+                isAboutVisible={isAboutVisible}
+                screenHeight={screenHeight}
+              />
+            }
+          />
+          <Route
+            path="/portfolio"
+            element={
+              <Portfolio
+                screenHeight={screenHeight}
+                scrollUpdate={handlePortfolioScroll}
+              />
+            }
+          />
+          <Route path="/guestbook" element={<FullGuestbook />} />
+        </Routes>
       </Container>
 
-      <SidebarWrap onClick={HandleSidebar} >
-        <Sidebar sidebarVisible={sidebarVisible}/>
+      <StickyNav />
+      <SidebarWrap onClick={HandleSidebar}>
+        <Sidebar sidebarVisible={sidebarVisible} />
       </SidebarWrap>
-    </>
+    </BrowserRouter>
   );
 }
 
