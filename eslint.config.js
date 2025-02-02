@@ -33,6 +33,10 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
+      // React 17+에서는 필요 없는 import 경고 없앰
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'no-unused-vars': ['warn', { varsIgnorePattern: '^React$' }],
     },
   },
 ]

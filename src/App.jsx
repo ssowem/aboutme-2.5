@@ -4,8 +4,9 @@ import styled from '@emotion/styled';
 import Intro from './components/intro';
 import Portfolio from './components/Portfolio';
 import About from './components/About';
-import { set, throttle } from 'lodash';
+import { throttle } from 'lodash';
 import Sidebar from './components/Sidebar';
+import FullGuestbook from './components/FullGuestbook';
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +18,6 @@ const Container = styled.div`
 `;
 
 const Section = styled.div`
-  height: ${(props) => props.screenHeight}px;
   height: 100vh;
   border: 1px solid #ddd;
   box-sizing: border-box;
@@ -82,7 +82,7 @@ function App() {
     // 아래로 스크롤
     if (deltaY > 0 && activeIndex < totalSections - 1) {
       // activeIndex가 2보다 작으면 1증가하게하고 2이상이면 증가시키지않고 유지(최대값을 2로제한하기)
-      setActiveIndex((prev) => (prev < 2 ? prev + 1 : prev));
+      setActiveIndex((prev) => (prev < 3 ? prev + 1 : prev));
     }
 
     // 위로스크롤
@@ -142,11 +142,14 @@ function App() {
         <Section screenHeight={screenHeight}>
           <Portfolio scrollUpdate={handlePortfolioScroll} />
         </Section>
+
+        <Section>
+          <FullGuestbook />
+        </Section>
       </Container>
 
       <SidebarWrap onClick={HandleSidebar} >
         <Sidebar sidebarVisible={sidebarVisible}/>
-  
       </SidebarWrap>
     </>
   );

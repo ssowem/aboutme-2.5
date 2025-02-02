@@ -204,7 +204,7 @@ function Portfolio({ scrollUpdate }) {
 
   return (
     <Container onWheel={onWheel}>
-      <Title>PORTPOLIO</Title>
+      <Title>Portpolio</Title>
 
       <CardWrap
         ref={CardWrapRef}
