@@ -1,13 +1,18 @@
-
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import PageTransition from './PageTransition';
 
 const Container = styled.div`
+  /* 배경색 화면에 고정시킴, PageTransition컴포넌트 애니메이션 동작위해서 */
+  position: fixed;
+  top: 0;
+  left: 0;
   background-color: #fe8d1c;
+  z-index: -1;
+
   width: 100%;
   height: 100vh;
   margin: 0;
-
   display: flex;
   flex-direction: column;
   font-size: 62.5%;
@@ -19,7 +24,6 @@ const MainText = styled.div`
   width: 100%;
   height: 50%;
   color: #fff;
-  
 `;
 
 const MainTextLine1 = styled.div`
@@ -151,93 +155,95 @@ const ItemBox = styled.div`
   }
 `;
 
-function Intro() {
+const Intro = () => {
   return (
     <Container>
-      <MainText>
-        <MainTextLine1>
-          안녕하세요. <span>😁</span>
-        </MainTextLine1>
-        <MainTextLine2>
-          새로운 꿈에 첫발을 내딛고자 하는 이소연입니다<span>✨</span>
-        </MainTextLine2>
-        <MainTextLine3>
-          저는 레이아웃을 디자인하고, CSS를 동적으로 바꾸어가는 과정이 재미있고
-          즐거워요!
-        </MainTextLine3>
-        <MainTextLine4>
-          이 즐거움을 바탕으로, 현재에 머무르지 않고 꾸준히 성장해나가고
-          싶습니다.
-        </MainTextLine4>
-      </MainText>
+      <PageTransition>
+        <MainText>
+          <MainTextLine1>
+            안녕하세요. <span>😁</span>
+          </MainTextLine1>
+          <MainTextLine2>
+            새로운 꿈에 첫발을 내딛고자 하는 이소연입니다<span>✨</span>
+          </MainTextLine2>
+          <MainTextLine3>
+            저는 레이아웃을 디자인하고, CSS를 동적으로 바꾸어가는 과정이
+            재미있고 즐거워요!
+          </MainTextLine3>
+          <MainTextLine4>
+            이 즐거움을 바탕으로, 현재에 머무르지 않고 꾸준히 성장해나가고
+            싶습니다.
+          </MainTextLine4>
+        </MainText>
 
-      <Skills>
-        <SkillsLeft>
-          <ItemBox>
-            <div className="title">Skills</div>
-            <div className="wrap">
-              <div className="item">
-                <img src="src/images/html.png" alt="" />
+        <Skills>
+          <SkillsLeft>
+            <ItemBox>
+              <div className="title">Skills</div>
+              <div className="wrap">
+                <div className="item">
+                  <img src="src/images/html.png" alt="" />
+                </div>
+                <div className="item">
+                  <img src="src/images/css.png" alt="" />
+                </div>
+                <div className="item">
+                  <img src="src/images/javascript.png" alt="" />
+                </div>
+                <div className="item">
+                  <img src="src/images/jquery.png" alt="" />
+                </div>
+                <div className="item">
+                  <img src="src/images/react.png" alt="" />
+                </div>
+                <div className="item">
+                  <img src="src/images/ps.png" alt="" />
+                </div>
+                <div className="item">
+                  <img src="src/images/illustrator.png" alt="" />
+                </div>
               </div>
-              <div className="item">
-                <img src="src/images/css.png" alt="" />
-              </div>
-              <div className="item">
-                <img src="src/images/javascript.png" alt="" />
-              </div>
-              <div className="item">
-                <img src="src/images/jquery.png" alt="" />
-              </div>
-              <div className="item">
-                <img src="src/images/react.png" alt="" />
-              </div>
-              <div className="item">
-                <img src="src/images/ps.png" alt="" />
-              </div>
-              <div className="item">
-                <img src="src/images/illustrator.png" alt="" />
-              </div>
-            </div>
-          </ItemBox>
+            </ItemBox>
 
-          <ItemBox>
-            <div className="title">Collab Tools</div>
-            <div className="wrap">
-              <div className="item">
-                <img src="src/images/vscode.png" alt="" />
+            <ItemBox>
+              <div className="title">Collab Tools</div>
+              <div className="wrap">
+                <div className="item">
+                  <img src="src/images/vscode.png" alt="" />
+                </div>
+                <div className="item">
+                  <img src="src/images/figma.png" alt="" />
+                </div>
+                <div className="item">
+                  <img src="src/images/git.png" alt="" />
+                </div>
               </div>
-              <div className="item">
-                <img src="src/images/figma.png" alt="" />
-              </div>
-              <div className="item">
-                <img src="src/images/git.png" alt="" />
-              </div>
-            </div>
-          </ItemBox>
-        </SkillsLeft>
+            </ItemBox>
+          </SkillsLeft>
 
-        <SkillsRight>
-          <img src="src/images/hello.gif" alt="프로필 이미지" />
-        </SkillsRight>
+          <SkillsRight>
+            <img src="src/images/hello.gif" alt="프로필 이미지" />
+          </SkillsRight>
 
-        {/* 흐르는 텍스트 애니메이션 영역 */}
-        <AnimatedContent>
-          <FlowBox>
-            <FlowWrap>
-              <Flow>
-                <span>It is a long established</span>
-                <span>It is a long established</span>
-                <span>It is a long established</span>
-                <span>It is a long established</span>
-                <span>It is a long established</span>
-                <span>It is a long established</span>
-              </Flow>
-            </FlowWrap>
-          </FlowBox>
-        </AnimatedContent>
-      </Skills>
+          {/* 흐르는 텍스트 애니메이션 영역 */}
+          <AnimatedContent>
+            <FlowBox>
+              <FlowWrap>
+                <Flow>
+                  <span>It is a long established</span>
+                  <span>It is a long established</span>
+                  <span>It is a long established</span>
+                  <span>It is a long established</span>
+                  <span>It is a long established</span>
+                  <span>It is a long established</span>
+                </Flow>
+              </FlowWrap>
+            </FlowBox>
+          </AnimatedContent>
+        </Skills>
+      </PageTransition>
     </Container>
   );
-}
+};
 
 export default Intro;

@@ -71,7 +71,7 @@ const UserEmoji = styled.span`
   }
 `;
 
-function FullGuestbookList() {
+function GuestbookList() {
   return (
     <ListContainer>
       <ListItem>
@@ -161,4 +161,4 @@ function FullGuestbookList() {
   );
 }
 
-export default FullGuestbookList;
+export default GuestbookList;

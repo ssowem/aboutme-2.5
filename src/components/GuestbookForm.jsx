@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 const FormContainer = styled.div`
   margin-top: 2rem;
   width: 100%;
-  height: 100vh;
   background-color: #f7f2ed;
   border: 1px solid #979797;
   padding: 3rem;
@@ -54,7 +53,7 @@ const GuestbookSubmitButton = styled.button`
   border-radius: 0.5rem;
 `;
 
-function FullGuestbookForm() {
+function GuestbookForm() {
   return (
     <FormContainer>
       <InputWrap>
@@ -69,4 +68,4 @@ function FullGuestbookForm() {
   );
 }
 
-export default FullGuestbookForm;
+export default GuestbookForm;

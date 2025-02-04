@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import FullGuestbookForm from '../components/FullGuestbookForm';
-import FullGuestbookList from '../components/FullGuestbookList';
+import GuestbookForm from '../components/GuestbookForm';
+import GuestbookList from '../components/GuestbookList';
+import PageTransition from './PageTransition'
 
 const Container = styled.div`
   width: 100%;
@@ -27,18 +28,20 @@ const Title = styled.span`
   }
 `;
 
-function FullGuestbook() {
+const Guestbook = () => {
   return (
     <Container>
-      <Title>
-        <div className="main">Guestbook</div>
-        <div className="one-line">자유롭게 방명록을 남겨주세요:)</div>
-      </Title>
+      <PageTransition>
+        <Title>
+          <div className="main">Guestbook</div>
+          <div className="one-line">자유롭게 방명록을 남겨주세요:)</div>
+        </Title>
 
-      <FullGuestbookForm />
-      <FullGuestbookList />
+        <GuestbookForm />
+        <GuestbookList />
+      </PageTransition>
     </Container>
   );
-}
+};
 
-export default FullGuestbook;
+export default Guestbook;

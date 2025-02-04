@@ -1,9 +1,11 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
+import PageTransition from './PageTransition';
 
 const Container = styled.div`
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
+  background-color: aliceblue;
   width: 100%;
   height: 100vh;
 
@@ -209,59 +211,61 @@ const Text4 = styled.div`
   }
 `;
 
-function About({ isAboutVisible }) {
+const About = ({ isAboutVisible }) => {
   // console.log("어바웃화면에서 확인된 isAboutVisible 값",isAboutVisible)
 
   return (
     <Container>
-      <Title>ABOUT ME</Title>
+      <PageTransition>
+        <Title>ABOUT ME</Title>
 
-      <TextWrap>
-        <Text1>
-          <div
-            className={`text-wrap ${isAboutVisible === true ? 'active' : ''}`}
-          >
-            <span>#다정한</span>
-            <span>#조화로운</span>
-          </div>
+        <TextWrap>
+          <Text1>
+            <div
+              className={`text-wrap ${isAboutVisible === true ? 'active' : ''}`}
+            >
+              <span>#다정한</span>
+              <span>#조화로운</span>
+            </div>
 
-          <div className="emoji-wrap">
-            {/* <span className="emoji">💫</span> */}
-          </div>
-        </Text1>
+            <div className="emoji-wrap">
+              {/* <span className="emoji">💫</span> */}
+            </div>
+          </Text1>
 
-        <Text2>
-          <div
-            className={`text-wrap ${isAboutVisible === true ? 'active' : ''}`}
-          >
-            <p>상호간의 조화와 균형을 중요시하며,</p>
-          </div>
+          <Text2>
+            <div
+              className={`text-wrap ${isAboutVisible === true ? 'active' : ''}`}
+            >
+              <p>상호간의 조화와 균형을 중요시하며,</p>
+            </div>
 
-          <div className="emoji-wrap"></div>
-        </Text2>
+            <div className="emoji-wrap"></div>
+          </Text2>
 
-        <Text3>
-          <div
-            className={`text-wrap ${isAboutVisible === true ? 'active' : ''}`}
-          >
-            <p>모든일에 끈기와 열정을 갖고 최선을 다합니다.</p>
-          </div>
-        </Text3>
+          <Text3>
+            <div
+              className={`text-wrap ${isAboutVisible === true ? 'active' : ''}`}
+            >
+              <p>모든일에 끈기와 열정을 갖고 최선을 다합니다.</p>
+            </div>
+          </Text3>
 
-        <Text4>
-          <div className="emoji-wrap">
-            {/* <span className="emoji">🙋🏻‍</span> */}
-          </div>
-          <div
-            className={`text-wrap ${isAboutVisible === true ? 'active' : ''}`}
-          >
-            <span>#겸손함</span>
-            <span>#책임감</span>
-          </div>
-        </Text4>
-      </TextWrap>
+          <Text4>
+            <div className="emoji-wrap">
+              {/* <span className="emoji">🙋🏻‍</span> */}
+            </div>
+            <div
+              className={`text-wrap ${isAboutVisible === true ? 'active' : ''}`}
+            >
+              <span>#겸손함</span>
+              <span>#책임감</span>
+            </div>
+          </Text4>
+        </TextWrap>
+      </PageTransition>
     </Container>
   );
-}
+};
 
 export default About;

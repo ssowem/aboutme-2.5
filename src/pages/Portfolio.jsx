@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useRef, useState } from 'react';
+import PageTransition from './PageTransition';
 
 const Container = styled.div`
   background-color: #ffffff;
@@ -148,7 +149,7 @@ const CardBox = styled.div`
   }
 `;
 
-function Portfolio({ scrollUpdate }) {
+const Portfolio = ({ scrollUpdate }) => {
   const CardWrapRef = useRef(null); // CardWrap(드래그할수있는 영역) 참조하
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0); // 드래그시작점 X축 좌표값
@@ -203,123 +204,126 @@ function Portfolio({ scrollUpdate }) {
 
   return (
     <Container onWheel={onWheel}>
-      <Title>Portpolio</Title>
+      <PageTransition>
+        <Title>Portpolio</Title>
 
-      <CardWrap
-        ref={CardWrapRef}
-        onScroll={scrollChecker}
-        onMouseDown={onDragStart}
-        onMouseMove={onDragMove}
-        onMouseUp={onDragEnd}
-        onMouseLeave={onDragEnd}
-      >
-        <CardBox>
-          <div className="card single">
-            <div className="thumbnail">
-              <img src="src/images/todolist.png" />
-            </div>
+        <CardWrap
+          ref={CardWrapRef}
+          onScroll={scrollChecker}
+          onMouseDown={onDragStart}
+          onMouseMove={onDragMove}
+          onMouseUp={onDragEnd}
+          onMouseLeave={onDragEnd}
+        >
+          <CardBox>
+            <div className="card single">
+              <div className="thumbnail">
+                <img src="src/images/todolist.png" />
+              </div>
 
-            <div className="tag-box">
-              <span>TO DO LIST</span>
+              <div className="tag-box">
+                <span>TO DO LIST</span>
 
-              <div className="skills-wrap">
-                <img src="src/images/react-js-icon.png" />
+                <div className="skills-wrap">
+                  <img src="src/images/react-js-icon.png" />
+                </div>
+              </div>
+
+              <div className="modal-box">
+                <span>📌Overveiw</span>
+
+                <p>
+                  리액트를 사용해서 만든 포트폴리오 입니다. 백엔드 api 협업
+                  경험이 있으며, 다양한 경험을 할 수 있었던 포트폴리오 중
+                  하나입니다
+                </p>
               </div>
             </div>
+          </CardBox>
 
-            <div className="modal-box">
-              <span>📌Overveiw</span>
+          <CardBox>
+            <div className="card">
+              <div className="thumbnail">
+                <img src="src/images/todolist.png" />
+              </div>
 
-              <p>
-                리액트를 사용해서 만든 포트폴리오 입니다. 백엔드 api 협업 경험이
-                있으며, 다양한 경험을 할 수 있었던 포트폴리오 중 하나입니다
-              </p>
-            </div>
-          </div>
-        </CardBox>
+              <div className="tag-box">
+                <span>TO DO LIST</span>
 
-        <CardBox>
-          <div className="card">
-            <div className="thumbnail">
-              <img src="src/images/todolist.png" />
-            </div>
-
-            <div className="tag-box">
-              <span>TO DO LIST</span>
-
-              <div className="skills-wrap">
-                <img src="src/images/react-js-icon.png" />
+                <div className="skills-wrap">
+                  <img src="src/images/react-js-icon.png" />
+                </div>
               </div>
             </div>
-          </div>
-        </CardBox>
+          </CardBox>
 
-        <CardBox>
-          <div className="card">
-            <div className="thumbnail">
-              <img src="src/images/todolist.png" />
-            </div>
+          <CardBox>
+            <div className="card">
+              <div className="thumbnail">
+                <img src="src/images/todolist.png" />
+              </div>
 
-            <div className="tag-box">
-              <span>TO DO LIST</span>
+              <div className="tag-box">
+                <span>TO DO LIST</span>
 
-              <div className="skills-wrap">
-                <img src="src/images/react-js-icon.png" />
+                <div className="skills-wrap">
+                  <img src="src/images/react-js-icon.png" />
+                </div>
               </div>
             </div>
-          </div>
-        </CardBox>
+          </CardBox>
 
-        <CardBox>
-          <div className="card">
-            <div className="thumbnail">
-              <img src="src/images/todolist.png" />
-            </div>
+          <CardBox>
+            <div className="card">
+              <div className="thumbnail">
+                <img src="src/images/todolist.png" />
+              </div>
 
-            <div className="tag-box">
-              <span>TO DO LIST</span>
+              <div className="tag-box">
+                <span>TO DO LIST</span>
 
-              <div className="skills-wrap">
-                <img src="src/images/react-js-icon.png" />
+                <div className="skills-wrap">
+                  <img src="src/images/react-js-icon.png" />
+                </div>
               </div>
             </div>
-          </div>
-        </CardBox>
+          </CardBox>
 
-        <CardBox>
-          <div className="card">
-            <div className="thumbnail">
-              <img src="src/images/todolist.png" />
-            </div>
+          <CardBox>
+            <div className="card">
+              <div className="thumbnail">
+                <img src="src/images/todolist.png" />
+              </div>
 
-            <div className="tag-box">
-              <span>TO DO LIST</span>
+              <div className="tag-box">
+                <span>TO DO LIST</span>
 
-              <div className="skills-wrap">
-                <img src="src/images/react-js-icon.png" />
+                <div className="skills-wrap">
+                  <img src="src/images/react-js-icon.png" />
+                </div>
               </div>
             </div>
-          </div>
-        </CardBox>
+          </CardBox>
 
-        <CardBox>
-          <div className="card">
-            <div className="thumbnail">
-              <img src="src/images/todolist.png" />
-            </div>
+          <CardBox>
+            <div className="card">
+              <div className="thumbnail">
+                <img src="src/images/todolist.png" />
+              </div>
 
-            <div className="tag-box">
-              <span>TO DO LIST</span>
+              <div className="tag-box">
+                <span>TO DO LIST</span>
 
-              <div className="skills-wrap">
-                <img src="src/images/react-js-icon.png" />
+                <div className="skills-wrap">
+                  <img src="src/images/react-js-icon.png" />
+                </div>
               </div>
             </div>
-          </div>
-        </CardBox>
-      </CardWrap>
+          </CardBox>
+        </CardWrap>
+      </PageTransition>
     </Container>
   );
-}
+};
 
 export default Portfolio;
