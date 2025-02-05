@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PageTransition from './PageTransition';
 
 const Container = styled.div`
@@ -149,26 +149,77 @@ const CardBox = styled.div`
   }
 `;
 
-const Portfolio = ({ scrollUpdate }) => {
+const Portfolio = ({ portFolioIsAtStart, portFolioIsAtEnd , sevedScrollPosition, setSevedScrollPosition  }) => {
   const CardWrapRef = useRef(null); // CardWrap(드래그할수있는 영역) 참조하
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0); // 드래그시작점 X축 좌표값
   const [totalX, setTotalX] = useState(0);
+  const [scrollTransitionTimeout, setScrollTransitionTimeout] = useState(null);
+  // sevedScrollPosition값 변경될때마다 실행
+  useEffect(() => {
+    // 저장된스크롤값이있을때 && 스크롤할대상이있는지확인
+    if(sevedScrollPosition !== null && CardWrapRef.current) {
+      //현재가로스크롤위치에  저장된위치값을 줘서 이동시킴
+      CardWrapRef.current.scrollLeft = sevedScrollPosition;
+    }
 
+  },[sevedScrollPosition])
+
+ 
   const scrollChecker = () => {
+    // 스크롤 시작점0일때 앱컴포넌트로 true 업데이트,
+    // 스크롤 끝지점일때 앱컴포넌트로 true업데이트
+
+    // 스크롤 시작점 값 (시작점이 0일때 위로스크롤 가능하게함)
     const xScrollValue = CardWrapRef.current.scrollLeft;
 
-    if (xScrollValue === 0) {
-      scrollUpdate(true);
-      console.log('0임요');
+    // 스크롤 가능한 전체너비의값을 저장하는 변수(전체가로길이,스크롤포함)
+    const TotalScrollWidth = CardWrapRef.current.scrollWidth;
+
+    // 현재화면에 보이는 가로길이를 저장하는 변수 (스크롤제외)
+    const visibleWidth = CardWrapRef.current.clientWidth;
+
+    // 스크롤이 끝나는 좌표값을 저장하는 변수
+    const scrollMaxX = TotalScrollWidth - visibleWidth;
+
+    const BUFFER = 20; // 끝에서 20px일때트리거
+
+
+
+    if (xScrollValue <= BUFFER) {
+      if (!scrollTransitionTimeout) {
+        setScrollTransitionTimeout(
+          setTimeout(() => {
+            portFolioIsAtStart(true);
+            setSevedScrollPosition(xScrollValue);
+          }, 300)
+        );
+      }
     } else {
-      scrollUpdate(false);
+      clearTimeout(scrollTransitionTimeout);
+      setScrollTransitionTimeout(null);
+      portFolioIsAtStart(false);
+    }
+
+
+    if (xScrollValue >= scrollMaxX - BUFFER) {
+      if (!scrollTransitionTimeout) {
+        setScrollTransitionTimeout(
+          setTimeout(() => {
+            portFolioIsAtEnd(true);
+            setSevedScrollPosition(xScrollValue);
+          }, 300)
+        );
+      }
+    } else {
+      clearTimeout(scrollTransitionTimeout);
+      setScrollTransitionTimeout(null);
+      portFolioIsAtEnd(false);
     }
   };
 
   // 마우스 드래그 시작될때 동작
   const onDragStart = (e) => {
-    console.log('드래그 시작');
     setIsDragging(true); // 드래그중으로 상태업데이트
     setStartX(e.clientX); // 시작 위치(X좌표) 를 저장
     if (CardWrapRef.current) {
@@ -198,8 +249,7 @@ const Portfolio = ({ scrollUpdate }) => {
 
   const onWheel = (e) => {
     if (!CardWrapRef.current) return;
-    // e.preventDefault();
-    CardWrapRef.current.scrollLeft += e.deltaY; // 세로 휠값을 가로스크롤로 적용;=
+    CardWrapRef.current.scrollLeft += e.deltaY * 0.5; // 세로 휠값을 가로스크롤로 적용, 스크롤 속도 0.8배 더 줄임;=
   };
 
   return (

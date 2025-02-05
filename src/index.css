@@ -12,9 +12,3 @@ body {
   margin: 0;
   padding: 0;
 }
-
-/* 각각 페이지 컴포넌트를 감싸고있는 요소 motion.div 따로 동작시키려고 relative적용 */
-.page-wrapper {
-  position: relative;
-  z-index: 1;
-}

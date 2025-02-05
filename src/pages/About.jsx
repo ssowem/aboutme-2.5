@@ -212,7 +212,6 @@ const Text4 = styled.div`
 `;
 
 const About = ({ isAboutVisible }) => {
-  // console.log("어바웃화면에서 확인된 isAboutVisible 값",isAboutVisible)
 
   return (
     <Container>
