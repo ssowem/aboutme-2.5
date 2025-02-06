@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './App.css';
 import styled from '@emotion/styled';
 import Intro from './pages/intro';
@@ -17,15 +17,6 @@ import {
 } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import { throttle } from 'lodash';
-
-// const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   transition: transform 0.5s ease-in-out;
-//   will-change: transform;
-//   width: 100vw;
-//   height: auto;
-// `;
 
 const SidebarWrap = styled.div`
   position: fixed;
@@ -49,60 +40,94 @@ const SidebarWrap = styled.div`
 const pages = ['/', '/about', '/portfolio', '/guestbook'];
 
 // 마우스휠 감지하고 페이지를 이동시키는 함수
-function ScrollNavigator({
+const ScrollNavigator = ({
   setSidebarVisible,
   portfolioScrollIsStart,
   portfolioScrollIsEnd,
-}) {
+  setIsAboutVisible,isAboutVisible
+}) => {
   const navigate = useNavigate(); // 특정 Url로 이동할때 사용
   const location = useLocation(); // 현재 Url정보 가져옴 (location.pathname 사용하면 현재 어떤페이지인지 확인가능)
+  const isScrolling = useRef(false); // 스크롤방지용
 
-  // useEffect를 사용해서 휠이벤트가 발생할때마다 페이지를 변경시킴
-  useEffect(() => {
-    // 휠의 방향을 감지하는 함수
-    const handleScroll = throttle((event) => {
-      //  deltaY > 0 아래로스크롤, deltaY < 0 위로 스크롤
+
+  // 휠 이벤트를 감지하는 함수
+  const handleScroll = useCallback(
+    
+    // throttle을 사용해서 마우스휠 동작을 0.5초마다 한번씩 실행하게함
+    throttle((event) => {
+      
+
+      if(isScrolling.current) return; // 이미스크롤중이면 무시하게함, 스크롤 연속실행을 방지함
+      isScrolling.current = true; // 현재 실행되고 있음으로 변경시킴
+      setTimeout(() => (isScrolling.current = false), 300) // 5초 후에 현재스크롤상태를 false로 변경시킴(다음스크롤 허용시키기)
+
+      // 스크롤 방향을 감지 deltaY > 0 이면 아래로스크롤, deltaY < 0 이면 위로 스크롤
       const { deltaY } = event;
       // 현재 페이지 인덱스 가져옴 [pages 배열에서 현재url(location.pathname)을 기준으로 인덱스를 찾음]
       const currentIndex = pages.indexOf(location.pathname);
 
+
       // 휠 감지되면 사이드바 바로닫기
       setSidebarVisible(false);
 
-      // 아래로 스크롤, 현재 인덱스가 마지막페이지가 아니면 다음페이지 이동
+      // 아래로 스크롤(=다음페이지로 이동), 현재 인덱스가 마지막 페이지가 아니면 다음페이지 이동
       if (deltaY > 0 && currentIndex < pages.length - 1) {
-        console.log(portfolioScrollIsEnd);
+       
+        // 포트폴리오 페이지에서 가로스크롤이 끝까지 갔을때만 다음페이지로 이동
         if (currentIndex === 2 && portfolioScrollIsEnd) {
           navigate(pages[currentIndex + 1]);
+
+          // 포트폴리오페이지가 아니면 다음 페이지로 이동.
         } else if (currentIndex !== 2) {
           navigate(pages[currentIndex + 1]);
         }
       }
 
+      // 위로 스크롤 , 첫번째 페이지가 아니면 이전 페이지로 이동
       if (deltaY < 0 && currentIndex > 0) {
-        // 이전 페이지 URL로 변경
-        // navigate(pages[currentIndex - 1]);
+        
 
+        // 포트폴리오 페이지에서 가로스크롤이 가장 왼쪽에 있을때만 이전페이지로 이동
         if (currentIndex === 2 && portfolioScrollIsStart) {
           navigate(pages[currentIndex - 1]);
-        } else if (currentIndex !== 2) {
+
+          // 포트폴리오페이지가 아니라면 이전 페이지로 이동
+        } else if (currentIndex !== 2 ) {
           navigate(pages[currentIndex - 1]);
         }
       }
-    }, 1000);
 
-    // 전역적으로 휠이벤트를 감지하면 handleScroll함수 실행
+
+
+    }, 500), 
+    [location.pathname, navigate, portfolioScrollIsStart, portfolioScrollIsEnd, setSidebarVisible]
+  );
+
+
+  // useEffect 사용해서 휠이벤트 감지될때마다 handleScroll 함수를 실행.
+  // 
+  useEffect(() => {
     window.addEventListener('wheel', handleScroll);
 
-    // 컴포넌트가 언마운트될때 이벤트리스너 제거(메모리누수방지?)
-    return () => window.removeEventListener('wheel', handleScroll);
-  }, [
-    location.pathname,
-    navigate,
-    portfolioScrollIsStart,
-    portfolioScrollIsEnd,
-  ]);
-}
+    const path = location.pathname; //현재페이지
+
+    // 현재페이지가 about이면 isAboutVisible = true로 변경함 (애니메이션 적용)
+    if(path === '/about') {   
+      setIsAboutVisible(true);
+    }
+  
+    //메모리누수방지
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+    };
+  }, [handleScroll]);
+
+
+
+  return null;
+ 
+};
 
 function App() {
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -113,12 +138,7 @@ function App() {
   const [portfolioScrollIsEnd, setPortfolioScrollIsEnd] = useState(false);
   const [sevedScrollPosition, setSevedScrollPosition] = useState(null);
 
-  useEffect(() => {
-    //현재페이지가 /about 이면 true, 아니면 false
-    setIsAboutVisible(location.pathname === '/about');
-  }, [location.pathname]);
-  //location.pathname을 사용해서 현재브라우저 url정보를가져옴
-  // useEffect로 location.pathname이 변경될때마다 setIsAboutVisible 업데이트
+
 
   const handleSidebar = () => {
     if (sidebarVisible === false) {
@@ -144,6 +164,8 @@ function App() {
         setSidebarVisible={setSidebarVisible}
         portfolioScrollIsStart={portfolioScrollIsStart}
         portfolioScrollIsEnd={portfolioScrollIsEnd}
+        setIsAboutVisible={setIsAboutVisible}
+        isAboutVisible={isAboutVisible}
       />
 
       <SidebarWrap onClick={handleSidebar}>
