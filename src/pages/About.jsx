@@ -1,11 +1,9 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
 import PageTransition from './PageTransition';
 
 const Container = styled.div`
-  /* background-color: #ffffff; */
-  background-color: aliceblue;
+  background-color: #ffffff;
   width: 100%;
   height: 100vh;
 

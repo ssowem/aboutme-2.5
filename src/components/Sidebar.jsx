@@ -5,7 +5,26 @@ import { PiGithubLogoFill } from 'react-icons/pi';
 import MiniGuestbook from './MiniGuestbook';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
-const Container = styled.div`
+const SideBarWrap = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  background-color: #fe8d1c;
+  z-index: 9999;
+
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  border-bottom-left-radius: 1rem;
+  border-top-left-radius: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: width 0.3s ease-in-out;
+`;
+
+const SideBarContent = styled.div`
   display: flex;
   gap: 1rem;
   width: ${(props) => (props.sidebarVisible ? '360px' : '40px')};
@@ -104,58 +123,60 @@ const PaginationNav = styled.div`
 
 function Sidebar({ sidebarVisible }) {
   return (
-    <Container sidebarVisible={sidebarVisible}>
-      <ButtonWrap>
-        <Button>
-          <PiGithubLogoFill />
-        </Button>
+    <SideBarWrap>
+      <SideBarContent sidebarVisible={sidebarVisible}>
+        <ButtonWrap>
+          <Button>
+            <PiGithubLogoFill />
+          </Button>
 
-        <Button>
-          <MdEmail />
-        </Button>
+          <Button>
+            <MdEmail />
+          </Button>
 
-        <Button>
-          <FaPhone />
-        </Button>
+          <Button>
+            <FaPhone />
+          </Button>
 
-        <Button>
-          <MdInsertComment />
-        </Button>
-      </ButtonWrap>
+          <Button>
+            <MdInsertComment />
+          </Button>
+        </ButtonWrap>
 
-      <ContentWrap>
-        <div className="content-box">
-          <span>https://github.com/ssowem</span>
-        </div>
-        <div className="content-box">
-          <span>lsyeon0516@gmail.com</span>
-        </div>
-        <div className="content-box">
-          <span>010-9448-1104</span>
-        </div>
-
-        <div className="board-box">
-          <div className="board-mini">
-            <span className="title">방명록을 남겨주세요☺</span>
-
-            <MiniGuestbook />
-
-            <PaginationWrap>
-              <AllButton>전체보기</AllButton>
-              <PaginationNav>
-                <button className="prev-button">
-                  <IoIosArrowBack />
-                </button>
-
-                <button className="next-button">
-                  <IoIosArrowForward />
-                </button>
-              </PaginationNav>
-            </PaginationWrap>
+        <ContentWrap>
+          <div className="content-box">
+            <span>https://github.com/ssowem</span>
           </div>
-        </div>
-      </ContentWrap>
-    </Container>
+          <div className="content-box">
+            <span>lsyeon0516@gmail.com</span>
+          </div>
+          <div className="content-box">
+            <span>010-9448-1104</span>
+          </div>
+
+          <div className="board-box">
+            <div className="board-mini">
+              <span className="title">방명록을 남겨주세요☺</span>
+
+              <MiniGuestbook />
+
+              <PaginationWrap>
+                <AllButton>전체보기</AllButton>
+                <PaginationNav>
+                  <button className="prev-button">
+                    <IoIosArrowBack />
+                  </button>
+
+                  <button className="next-button">
+                    <IoIosArrowForward />
+                  </button>
+                </PaginationNav>
+              </PaginationWrap>
+            </div>
+          </div>
+        </ContentWrap>
+      </SideBarContent>
+    </SideBarWrap>
   );
 }
 
