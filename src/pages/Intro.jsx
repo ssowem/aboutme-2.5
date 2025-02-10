@@ -156,8 +156,8 @@ const ItemBox = styled.div`
 
 const Intro = () => {
   return (
-    <Container>
-      <PageTransition>
+    <PageTransition>
+      <Container>
         <MainText>
           <MainTextLine1>
             안녕하세요. <span>😁</span>
@@ -240,8 +240,8 @@ const Intro = () => {
             </FlowBox>
           </AnimatedContent>
         </Skills>
-      </PageTransition>
-    </Container>
+      </Container>
+    </PageTransition>
   );
 };
 

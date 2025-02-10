@@ -72,6 +72,10 @@ const UserEmoji = styled.span`
 `;
 
 function GuestbookList() {
+
+
+
+  
   return (
     <ListContainer>
       <ListItem>
@@ -92,72 +96,10 @@ function GuestbookList() {
         </DeleteButton>
       </ListItem>
 
-      <ListItem>
-        <UserEmoji />
-        <GuestInfoWrap>
-          <div className="guest-info">
-            <div className="guest-name">이아무개</div>
-            <div className="guest-date">2025.02.01</div>
-            <div className="guest-time">18:12</div>
-          </div>
-          <div className="guest-message">
-            글자수 제한하기 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요 안녕하세요
-          </div>
-        </GuestInfoWrap>
-
-        <DeleteButton>
-          <FaTrashAlt />
-        </DeleteButton>
-      </ListItem>
-
-      <ListItem>
-        <UserEmoji />
-        <GuestInfoWrap>
-          <div className="guest-info">
-            <div className="guest-name">이아무개</div>
-            <div className="guest-date">2025.02.01</div>
-            <div className="guest-time">18:12</div>
-          </div>
-          <div className="guest-message">
-            글자수 제한하기 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요 안녕하세요
-          </div>
-        </GuestInfoWrap>
-
-        <DeleteButton>
-          <FaTrashAlt />
-        </DeleteButton>
-      </ListItem>
-
-      <ListItem>
-        <UserEmoji />
-        <GuestInfoWrap>
-          <div className="guest-info">
-            <div className="guest-name">이아무개</div>
-            <div className="guest-date">2025.02.01</div>
-            <div className="guest-time">18:12</div>
-          </div>
-          <div className="guest-message">
-            글자수 제한하기 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요 안녕하세요
-            안녕하세요 안녕하세요 안녕하세요 안녕하세요
-          </div>
-        </GuestInfoWrap>
-
-        <DeleteButton>
-          <FaTrashAlt />
-        </DeleteButton>
-      </ListItem>
     </ListContainer>
+
+   
+
   );
 }
 

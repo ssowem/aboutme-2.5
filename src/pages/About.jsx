@@ -210,10 +210,9 @@ const Text4 = styled.div`
 `;
 
 const About = ({ isAboutVisible }) => {
-
   return (
-    <Container>
-      <PageTransition>
+    <PageTransition>
+      <Container>
         <Title>ABOUT ME</Title>
 
         <TextWrap>
@@ -260,8 +259,8 @@ const About = ({ isAboutVisible }) => {
             </div>
           </Text4>
         </TextWrap>
-      </PageTransition>
-    </Container>
+      </Container>
+    </PageTransition>
   );
 };
 
