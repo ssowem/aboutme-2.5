@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState } from 'react';
 import GuestbookForm from '../components/GuestbookForm';
 import GuestbookList from '../components/GuestbookList';
 import PageTransition from './PageTransition';
@@ -29,7 +29,17 @@ const Title = styled.span`
   }
 `;
 
-const Guestbook = () => {
+function Guestbook() {
+
+  // 방명록 리스트를 저장하는 배열
+  const [ lists, setLists ] = useState([]);
+
+  // 새로운 방명록을 추가하는 함수
+  const handleAddList = (list) => {
+    // 기존리스트를 복사하고 새로운 리스트를 추가하는 새로운 배열만듬
+    setLists((prevList) => [...prevList, list])
+  }
+
   return (
     <PageTransition>
       <Container>
@@ -38,8 +48,8 @@ const Guestbook = () => {
           <div className="one-line">자유롭게 방명록을 남겨주세요:)</div>
         </Title>
 
-        <GuestbookForm />
-        <GuestbookList />
+        <GuestbookForm handleAddList={handleAddList}/>
+        <GuestbookList messages={lists}/>
         <GuestPagination />
       </Container>
     </PageTransition>

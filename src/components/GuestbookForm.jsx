@@ -54,7 +54,9 @@ const GuestbookSubmitButton = styled.button`
   border-radius: 0.5rem;
 `;
 
-function GuestbookForm() {
+function GuestbookForm({handleAddList}) {
+  console.log("handleAddList함수가전달됨?",handleAddList)
+  
   // 닉네임,비밀번호, 방명록 내용을 감지하고 관리
   const [nicknameValue, setNicknameValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
@@ -140,9 +142,21 @@ function GuestbookForm() {
       return;
     }
 
-    //모든 조건 만족하면 띄워지는 alert임
-    alert(`닉넴:${finalNickname},비번:${passwordValue},메세지:${guestMessageValue}`)
+    //모든 조건 만족하면 아래코드 실행
 
+    // 새로운 방명록 데이터 객체 생성
+    const newEntry = {
+      nickname: finalNickname,
+      message: guestMessageValue,
+    }
+
+    // handleAddList 함수에 방명록 데이터 전달
+    handleAddList(newEntry);
+
+    //빈값으로 초기화시키기
+    setNicknameValue("");
+    setPasswordValue("");
+    setGuestMessageValue("");
   };
 
 

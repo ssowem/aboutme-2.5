@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState } from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
 
 const ListContainer = styled.div`
@@ -61,6 +61,40 @@ const DeleteButton = styled.button`
   font-size: 2rem;
   display: flex;
   color: #d64747;
+  position: relative;
+
+  .check-modal {
+    display: flex;
+    align-items: center;
+
+    position: absolute;
+    content: '';
+    /* width: 50px;
+    height: 50px; */
+    top: 50%;
+    right: 3rem;
+    transform: translateY(-50%);
+
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    padding: 1rem;
+    gap: 1rem;
+    border-radius: 0.5rem;
+
+    input {
+      width: 10rem;
+      height: 3rem;
+      padding: 0.5rem;
+      font-size: 1.4rem;
+    }
+
+    button {
+      width: 5rem;
+      height: 3rem;
+      
+    }
+  }
 `;
 
 const UserEmoji = styled.span`
@@ -71,35 +105,34 @@ const UserEmoji = styled.span`
   }
 `;
 
-function GuestbookList() {
-
-
+function GuestbookList({ messages }) {
 
   
   return (
     <ListContainer>
-      <ListItem>
-        <UserEmoji />
-        <GuestInfoWrap>
-          <div className="guest-info">
-            <div className="guest-name">이아무개</div>
-            <div className="guest-date">2025.02.01</div>
-            <div className="guest-time">18:12</div>
-          </div>
-          <div className="guest-message">
-            안녕하세요 첫번째 방문자입니다 하핳하핳gggggggggggggg
-          </div>
-        </GuestInfoWrap>
+      {messages.map((item, index) => (
+        <ListItem key={index}>
+          <UserEmoji />
+          <GuestInfoWrap>
+            <div className="guest-info">
+              <div className="guest-name">{item.nickname}</div>
+              <div className="guest-date">2025.02.01</div>
+              <div className="guest-time">18:12</div>
+            </div>
+            <div className="guest-message">{item.message}</div>
+          </GuestInfoWrap>
 
-        <DeleteButton>
-          <FaTrashAlt />
-        </DeleteButton>
-      </ListItem>
+          <DeleteButton>
+            <FaTrashAlt />
+            <div className="check-modal">
+              <input type="password" placeholder="비밀번호" maxLength={4} />
 
+              <button>확인</button>
+            </div>
+          </DeleteButton>
+        </ListItem>
+      ))}
     </ListContainer>
-
-   
-
   );
 }
 
