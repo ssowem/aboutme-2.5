@@ -33,12 +33,15 @@ const Title = styled.span`
 function Guestbook() {
   // 방명록 목록을 저장하는 배열
   const [lists, setLists] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  
+
 
   // 방명록 목록 가져오는 함수 (GET 요청)
   const fetchGuestbook = async () => {
     // console.log(lists);
     const url =
-      `https://gateway.ssobility.me/api/v1/boards?type=GUESTBOOK&page=1&size=10`;
+      `https://gateway.ssobility.me/api/v1/boards?type=GUESTBOOK&page=${currentPage}&size=4`;
 
     try {
       const response = await axios.get(url);
@@ -77,7 +80,7 @@ function Guestbook() {
 
       console.log('추가성공', response);
   
-      debugger;
+    
       fetchGuestbook();
     } catch (error) {
       console.error('오류', error);
@@ -98,7 +101,7 @@ function Guestbook() {
 
         <GuestbookForm createGuestbook={createGuestbook} />
         <GuestbookList lists={lists} setLists={setLists} fetchGuestbook={fetchGuestbook} />
-        <GuestPagination />
+        <GuestPagination fetchGuestbook={fetchGuestbook} currentPage={currentPage} setCurrentPage={setCurrentPage} /> 
       </Container>
     </PageTransition>
   );

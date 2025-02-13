@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 const PaginationContainer = styled.div`
@@ -29,24 +29,39 @@ const PaginationContainer = styled.div`
 
       &:hover {
         background-color: #bbbbbb;
-
       }
     }
-
   }
 `;
 
-const GuestPagination = () => {
+const GuestPagination = ({ fetchGuestbook, currentPage, setCurrentPage }) => {
+  
+useEffect(()=>{
+  fetchGuestbook();
+},[currentPage])
+
+  const handlePrevPage = () => {
+    if(currentPage > 1 ){
+      setCurrentPage(currentPage - 1); 
+    }
+   
+  };
+  
+  const handleNextPage = () => {
+    setCurrentPage(currentPage + 1);    
+  };
+
+
   return (
     <PaginationContainer>
       <div className="text">14개 중 1-4</div>
 
       <div className="button-wrap">
-        <button>
+        <button onClick={handlePrevPage}>
           <IoIosArrowBack />
         </button>
 
-        <button>
+        <button onClick={handleNextPage}>
           <IoIosArrowForward />
         </button>
       </div>

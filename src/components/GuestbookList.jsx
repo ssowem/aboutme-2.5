@@ -122,10 +122,12 @@ function GuestbookList({ lists, fetchGuestbook }) {
   // 방명록 삭제하는 함수 (DELETE 요청)
   const removeGuestbook = async (item) => {
     ;
-    const url = `https://gateway.ssobility.me/api/v1/boards/${item.id}?password=${passwordInput}`;
+    const url = `https://gateway.ssobility.me/api/v1/boards/${item.id}`;
 
     try {
-      const response = await axios.delete(url);
+      const response = await axios.delete(url,{
+        data: {password: passwordInput}
+      });
       // debugger;
       console.log('삭제성공', response);
 
