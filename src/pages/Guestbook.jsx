@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import GuestbookForm from '../components/GuestbookForm';
 import GuestbookList from '../components/GuestbookList';
 import PageTransition from './PageTransition';
 import GuestPagination from '../components/GuestPagination';
+import axios from 'axios';
 
 const Container = styled.div`
   width: 100%;
@@ -30,15 +31,62 @@ const Title = styled.span`
 `;
 
 function Guestbook() {
+  // 방명록 목록을 저장하는 배열
+  const [lists, setLists] = useState([]);
 
-  // 방명록 리스트를 저장하는 배열
-  const [ lists, setLists ] = useState([]);
+  // 방명록 목록 가져오는 함수 (GET 요청)
+  const fetchGuestbook = async () => {
+    // console.log(lists);
+    const url =
+      `https://gateway.ssobility.me/api/v1/boards?type=GUESTBOOK&page=1&size=10`;
 
-  // 새로운 방명록을 추가하는 함수
-  const handleAddList = (list) => {
-    // 기존리스트를 복사하고 새로운 리스트를 추가하는 새로운 배열만듬
-    setLists((prevList) => [...prevList, list])
-  }
+    try {
+      const response = await axios.get(url);
+      console.log('조회성공', response);
+      setLists(response.data.data.content);
+
+      return response.data;
+    } catch (error) {
+      console.error('오류', error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    fetchGuestbook();
+  }, []);
+
+  // 방명록 추가하는 함수 (POST 요청)
+  const createGuestbook = async ({ nickname, message, password }) => {
+
+    const url = 'https://gateway.ssobility.me/api/v1/boards';
+    const body = {
+      content: message,
+      writerNickname: nickname,
+      type: 'GUESTBOOK',
+      isPrivate: false,
+      password: password,
+    };
+
+    try {
+      const response = await axios.post(url, body, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      console.log('추가성공', response);
+  
+      debugger;
+      fetchGuestbook();
+    } catch (error) {
+      console.error('오류', error);
+    }
+  };
+
+ 
+
+
 
   return (
     <PageTransition>
@@ -48,12 +96,12 @@ function Guestbook() {
           <div className="one-line">자유롭게 방명록을 남겨주세요:)</div>
         </Title>
 
-        <GuestbookForm handleAddList={handleAddList}/>
-        <GuestbookList messages={lists}/>
+        <GuestbookForm createGuestbook={createGuestbook} />
+        <GuestbookList lists={lists} setLists={setLists} fetchGuestbook={fetchGuestbook} />
         <GuestPagination />
       </Container>
     </PageTransition>
   );
-};
+}
 
 export default Guestbook;

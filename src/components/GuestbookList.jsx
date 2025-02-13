@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import React, { useState } from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
+import axios from 'axios';
 
 const ListContainer = styled.div`
   display: flex;
@@ -59,41 +63,37 @@ const DeleteButton = styled.button`
   background-color: transparent;
   align-self: center;
   font-size: 2rem;
-  display: flex;
+  /* display: flex; */
   color: #d64747;
   position: relative;
+`;
 
-  .check-modal {
-    display: flex;
-    align-items: center;
+const CheckModal = styled.div`
+  display: flex;
+  align-items: center;
 
-    position: absolute;
-    content: '';
-    /* width: 50px;
-    height: 50px; */
-    top: 50%;
-    right: 3rem;
-    transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  right: 3rem;
+  transform: translateY(-50%);
 
-    color: #000;
-    background-color: #fff;
-    border: 1px solid #000;
-    padding: 1rem;
-    gap: 1rem;
-    border-radius: 0.5rem;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #000;
+  padding: 1rem;
+  gap: 1rem;
+  border-radius: 0.5rem;
 
-    input {
-      width: 10rem;
-      height: 3rem;
-      padding: 0.5rem;
-      font-size: 1.4rem;
-    }
+  input {
+    width: 10rem;
+    height: 3rem;
+    padding: 0.5rem;
+    font-size: 1.4rem;
+  }
 
-    button {
-      width: 5rem;
-      height: 3rem;
-      
-    }
+  button {
+    width: 5rem;
+    height: 3rem;
   }
 `;
 
@@ -105,31 +105,82 @@ const UserEmoji = styled.span`
   }
 `;
 
-function GuestbookList({ messages }) {
+function GuestbookList({ lists, fetchGuestbook }) {
+  // 선택된 삭제 모달에 item.id값을 저장해준다
+  const [selectedId, setSelectedId] = useState(null);
+  // 삭제모달에서 감지되는 비밀번호를 저장해준다.
+  const [passwordInput, setPasswordInput] = useState('');
 
-  
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+
+  // UTC 시간 한국시간으로 변경하는 함수
+  const getKoreanTime = (utcDate) => {
+    return dayjs.utc(utcDate).tz('Asia/Seoul').format('YYYY-MM-DD HH:mm:ss');
+  };
+
+  // 방명록 삭제하는 함수 (DELETE 요청)
+  const removeGuestbook = async (item) => {
+    ;
+    const url = `https://gateway.ssobility.me/api/v1/boards/${item.id}?password=${passwordInput}`;
+
+    try {
+      const response = await axios.delete(url);
+      // debugger;
+      console.log('삭제성공', response);
+
+      fetchGuestbook();
+    } catch (error) {
+      console.error('오류', error);
+    }
+  };
+
+  // 삭제 모달을 열어주는 함수
+  const openDeleteModal = (item) => {
+    setSelectedId(item.id);
+    console.log(selectedId);
+  };
+
   return (
     <ListContainer>
-      {messages.map((item, index) => (
-        <ListItem key={index}>
+      {lists.map((item) => (
+        <ListItem key={item.id}>
           <UserEmoji />
           <GuestInfoWrap>
             <div className="guest-info">
-              <div className="guest-name">{item.nickname}</div>
-              <div className="guest-date">2025.02.01</div>
-              <div className="guest-time">18:12</div>
+              <div className="guest-name">{item.writerNickname}</div>
+              <div className="guest-date">{getKoreanTime(item.createdAt)}</div>
             </div>
-            <div className="guest-message">{item.message}</div>
+            <div className="guest-message">{item.content}</div>
           </GuestInfoWrap>
 
-          <DeleteButton>
+          <DeleteButton
+            onClick={() => {
+              openDeleteModal(item);
+            }}
+          >
             <FaTrashAlt />
-            <div className="check-modal">
-              <input type="password" placeholder="비밀번호" maxLength={4} />
-
-              <button>확인</button>
-            </div>
           </DeleteButton>
+
+          {/* 저장된 아이디값이 item.id와 동일하면 모달창 보여짐 */}
+          {selectedId === item.id && (
+            <CheckModal>
+              <input
+                type="password"
+                placeholder="비밀번호"
+                maxLength={4}
+                onChange={(e) => setPasswordInput(e.target.value)}
+              />
+              <button
+                onClick={() => {
+                  removeGuestbook(item);
+                }}
+              >
+                확인
+              </button>
+              <button onClick={() => setSelectedId(null)}>취소</button>
+            </CheckModal>
+          )}
         </ListItem>
       ))}
     </ListContainer>

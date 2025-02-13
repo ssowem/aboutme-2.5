@@ -54,8 +54,8 @@ const GuestbookSubmitButton = styled.button`
   border-radius: 0.5rem;
 `;
 
-function GuestbookForm({handleAddList}) {
-  console.log("handleAddList함수가전달됨?",handleAddList)
+function GuestbookForm({createGuestbook}) {
+
   
   // 닉네임,비밀번호, 방명록 내용을 감지하고 관리
   const [nicknameValue, setNicknameValue] = useState('');
@@ -148,10 +148,11 @@ function GuestbookForm({handleAddList}) {
     const newEntry = {
       nickname: finalNickname,
       message: guestMessageValue,
+      password: passwordValue
     }
 
     // handleAddList 함수에 방명록 데이터 전달
-    handleAddList(newEntry);
+    createGuestbook(newEntry);
 
     //빈값으로 초기화시키기
     setNicknameValue("");
