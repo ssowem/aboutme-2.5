@@ -11,15 +11,17 @@ const ListContainer = styled.div`
   flex-direction: column;
   gap: 2rem;
   margin-top: 2rem;
+  height: 38rem;
 `;
 
 const ListItem = styled.div`
   position: relative;
+  height: 8rem;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.2rem;
-  padding: 2rem 4rem;
+  padding: 0 2rem;
   background-color: #f7f2ed;
   border-radius: 0.4rem;
   border: 1px solid #979797;
@@ -54,6 +56,7 @@ const ListItem = styled.div`
 const GuestInfoWrap = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 100%;
 `;
 
@@ -105,7 +108,7 @@ const UserEmoji = styled.span`
   }
 `;
 
-function GuestbookList({ lists, fetchGuestbook }) {
+function GuestbookList({ items, fetchGuestbook }) {
   // 선택된 삭제 모달에 item.id값을 저장해준다
   const [selectedId, setSelectedId] = useState(null);
   // 삭제모달에서 감지되는 비밀번호를 저장해준다.
@@ -121,12 +124,11 @@ function GuestbookList({ lists, fetchGuestbook }) {
 
   // 방명록 삭제하는 함수 (DELETE 요청)
   const removeGuestbook = async (item) => {
-    ;
     const url = `https://gateway.ssobility.me/api/v1/boards/${item.id}`;
 
     try {
-      const response = await axios.delete(url,{
-        data: {password: passwordInput}
+      const response = await axios.delete(url, {
+        data: { password: passwordInput },
       });
       // debugger;
       console.log('삭제성공', response);
@@ -145,7 +147,7 @@ function GuestbookList({ lists, fetchGuestbook }) {
 
   return (
     <ListContainer>
-      {lists.map((item) => (
+      {items.map((item) => (
         <ListItem key={item.id}>
           <UserEmoji />
           <GuestInfoWrap>

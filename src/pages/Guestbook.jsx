@@ -31,32 +31,46 @@ const Title = styled.span`
 `;
 
 function Guestbook() {
-  // 방명록 목록을 저장하는 배열
-  const [lists, setLists] = useState([]);
+  // 방명록을 저장하는 배열
+  const [items, setItems] = useState([]);
+  // 현재 방명록 페이지 카운트를 저장함
   const [currentPage, setCurrentPage] = useState(1);
-  
+  // 전체 방명록 갯수를 저장함
+  const [totalItems, setTotalItems] = useState(0);
 
+  const [size, setSize] = useState(4);
+
+  const [totalPage, setTotalPage] = useState(0);
+
+  useEffect(() => {
+    fetchGuestbook();
+  },[currentPage])
 
   // 방명록 목록 가져오는 함수 (GET 요청)
   const fetchGuestbook = async () => {
     // console.log(lists);
     const url =
-      `https://gateway.ssobility.me/api/v1/boards?type=GUESTBOOK&page=${currentPage}&size=4`;
+      `https://gateway.ssobility.me/api/v1/boards?type=GUESTBOOK&page=${currentPage}&size=${size}`;
 
     try {
+
       const response = await axios.get(url);
       console.log('조회성공', response);
-      setLists(response.data.data.content);
 
-      return response.data;
+      setItems(response.data.data.content);
+      setTotalItems(response.data.data.totalElements);
+      setTotalPage(response.data.data.totalPages);
+    
     } catch (error) {
       console.error('오류', error);
-      return null;
+     
     }
+    
   };
-
+ 
   useEffect(() => {
     fetchGuestbook();
+    console.log(totalItems)
   }, []);
 
   // 방명록 추가하는 함수 (POST 요청)
@@ -100,8 +114,10 @@ function Guestbook() {
         </Title>
 
         <GuestbookForm createGuestbook={createGuestbook} />
-        <GuestbookList lists={lists} setLists={setLists} fetchGuestbook={fetchGuestbook} />
-        <GuestPagination fetchGuestbook={fetchGuestbook} currentPage={currentPage} setCurrentPage={setCurrentPage} /> 
+        <GuestbookList items={items} fetchGuestbook={fetchGuestbook} />
+        {items.length !== 0 && 
+          <GuestPagination fetchGuestbook={fetchGuestbook} currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={totalItems} size={size} contentSize={items.length} totalPage={totalPage}/> 
+        }
       </Container>
     </PageTransition>
   );
