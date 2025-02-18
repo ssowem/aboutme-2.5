@@ -48,7 +48,7 @@ const GuestbookSubmitButton = styled.button`
 `;
 
 
-function MiniGuestbookForm() {
+const MiniGuestbookForm = () => {
     return (
    
         <FormContainer>

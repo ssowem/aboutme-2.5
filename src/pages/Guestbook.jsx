@@ -30,7 +30,15 @@ const Title = styled.span`
   }
 `;
 
-function Guestbook() {
+const ListContainer = styled.div`
+  margin-top: 2rem;
+  height: 38rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+const Guestbook = () => {
   // 방명록을 저장하는 배열
   const [items, setItems] = useState([]);
   // 현재 방명록 페이지 카운트를 저장함
@@ -44,38 +52,32 @@ function Guestbook() {
 
   useEffect(() => {
     fetchGuestbook();
-  },[currentPage])
+  }, [currentPage]);
 
   // 방명록 목록 가져오는 함수 (GET 요청)
   const fetchGuestbook = async () => {
     // console.log(lists);
-    const url =
-      `https://gateway.ssobility.me/api/v1/boards?type=GUESTBOOK&page=${currentPage}&size=${size}`;
+    const url = `https://gateway.ssobility.me/api/v1/boards?type=GUESTBOOK&page=${currentPage}&size=${size}`;
 
     try {
-
       const response = await axios.get(url);
       console.log('조회성공', response);
 
       setItems(response.data.data.content);
       setTotalItems(response.data.data.totalElements);
       setTotalPage(response.data.data.totalPages);
-    
     } catch (error) {
       console.error('오류', error);
-     
     }
-    
   };
- 
+
   useEffect(() => {
     fetchGuestbook();
-    console.log(totalItems)
+    console.log(totalItems);
   }, []);
 
   // 방명록 추가하는 함수 (POST 요청)
   const createGuestbook = async ({ nickname, message, password }) => {
-
     const url = 'https://gateway.ssobility.me/api/v1/boards';
     const body = {
       content: message,
@@ -93,17 +95,12 @@ function Guestbook() {
       });
 
       console.log('추가성공', response);
-  
-    
+
       fetchGuestbook();
     } catch (error) {
       console.error('오류', error);
     }
   };
-
- 
-
-
 
   return (
     <PageTransition>
@@ -114,13 +111,31 @@ function Guestbook() {
         </Title>
 
         <GuestbookForm createGuestbook={createGuestbook} />
-        <GuestbookList items={items} fetchGuestbook={fetchGuestbook} />
-        {items.length !== 0 && 
-          <GuestPagination fetchGuestbook={fetchGuestbook} currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={totalItems} size={size} contentSize={items.length} totalPage={totalPage}/> 
-        }
+
+        <ListContainer>
+          {items.map((item) => (
+            <GuestbookList
+              key={item.id}
+              item={item}
+              fetchGuestbook={fetchGuestbook}
+            />
+          ))}
+        </ListContainer>
+
+        {items.length !== 0 && (
+          <GuestPagination
+            fetchGuestbook={fetchGuestbook}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalItems={totalItems}
+            size={size}
+            contentSize={items.length}
+            totalPage={totalPage}
+          />
+        )}
       </Container>
     </PageTransition>
   );
-}
+};
 
 export default Guestbook;

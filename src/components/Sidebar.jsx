@@ -121,7 +121,7 @@ const PaginationNav = styled.div`
   }
 `;
 
-function Sidebar({ sidebarVisible }) {
+const Sidebar = ({ sidebarVisible }) => {
   return (
     <SideBarWrap>
       <SideBarContent sidebarVisible={sidebarVisible}>

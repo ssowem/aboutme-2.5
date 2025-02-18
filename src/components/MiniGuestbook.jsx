@@ -1,7 +1,7 @@
 import MiniGuestbookForm from './MiniGuestbookForm.jsx';
 import MiniGuestbookList from './MiniGuestbookList.jsx';
 
-function MiniGuestbook() {
+const MiniGuestbook = () => {
   return (
     <>
       <MiniGuestbookForm />

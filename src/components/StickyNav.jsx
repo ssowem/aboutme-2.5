@@ -30,7 +30,7 @@ const LinkWrap = styled.div`
   }
 `;
 
-function StickyNav() {
+const StickyNav = () => {
 
   const location = useLocation();
 

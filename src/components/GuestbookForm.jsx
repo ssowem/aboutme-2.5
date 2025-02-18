@@ -54,7 +54,7 @@ const GuestbookSubmitButton = styled.button`
   border-radius: 0.5rem;
 `;
 
-function GuestbookForm({createGuestbook}) {
+const GuestbookForm = ({createGuestbook}) => {
 
   
   // 닉네임,비밀번호, 방명록 내용을 감지하고 관리

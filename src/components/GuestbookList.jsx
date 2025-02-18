@@ -3,15 +3,20 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import React, { useState } from 'react';
-import { FaTrashAlt } from 'react-icons/fa';
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import axios from 'axios';
+import { FiEdit3 } from 'react-icons/fi';
+import { RiEdit2Fill } from 'react-icons/ri';
 
 const ListContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  margin-top: 2rem;
-  height: 38rem;
+  align-items: center;
+  height: 8rem;
+  padding: 0 2rem;
+  background-color: #f7f2ed;
+  border: 1px solid #979797;
+  border-radius: 0.4rem;
+  
 `;
 
 const ListItem = styled.div`
@@ -26,6 +31,14 @@ const ListItem = styled.div`
   border-radius: 0.4rem;
   border: 1px solid #979797;
   /* box-shadow: 2px 2px 6px 2px rgba(99, 99, 99, 0.2); */
+`;
+
+const GuestInfoWrap = styled.div`
+  /* border: 1px solid #0e8c91; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 
   .guest-info {
     display: flex;
@@ -53,12 +66,9 @@ const ListItem = styled.div`
   }
 `;
 
-const GuestInfoWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-`;
+const ButtonWrap = styled.div`
+  position: relative;
+`
 
 const DeleteButton = styled.button`
   cursor: pointer;
@@ -66,9 +76,7 @@ const DeleteButton = styled.button`
   background-color: transparent;
   align-self: center;
   font-size: 2rem;
-  /* display: flex; */
   color: #d64747;
-  position: relative;
 `;
 
 const CheckModal = styled.div`
@@ -108,9 +116,10 @@ const UserEmoji = styled.span`
   }
 `;
 
-function GuestbookList({ items, fetchGuestbook }) {
+const GuestbookList = ({ item, fetchGuestbook }) => {
   // 선택된 삭제 모달에 item.id값을 저장해준다
   const [selectedId, setSelectedId] = useState(null);
+
   // 삭제모달에서 감지되는 비밀번호를 저장해준다.
   const [passwordInput, setPasswordInput] = useState('');
 
@@ -140,55 +149,61 @@ function GuestbookList({ items, fetchGuestbook }) {
   };
 
   // 삭제 모달을 열어주는 함수
-  const openDeleteModal = (item) => {
+  const openModal = (item) => {
     setSelectedId(item.id);
-    console.log(selectedId);
+    // console.log(selectedId);
+  };
+
+  const closeModal = () => {
+    setSelectedId(null);
   };
 
   return (
     <ListContainer>
-      {items.map((item) => (
-        <ListItem key={item.id}>
-          <UserEmoji />
-          <GuestInfoWrap>
-            <div className="guest-info">
-              <div className="guest-name">{item.writerNickname}</div>
-              <div className="guest-date">{getKoreanTime(item.createdAt)}</div>
-            </div>
-            <div className="guest-message">{item.content}</div>
-          </GuestInfoWrap>
+     
+        <UserEmoji />
+        <GuestInfoWrap>
+          <div className="guest-info">
+            <div className="guest-name">{item.writerNickname}</div>
+            <div className="guest-date">{getKoreanTime(item.createdAt)}</div>
+          </div>
+          <div className="guest-message">{item.content}</div>
+        </GuestInfoWrap>
 
+        <ButtonWrap>
           <DeleteButton
             onClick={() => {
-              openDeleteModal(item);
+              openModal(item);
             }}
           >
             <FaTrashAlt />
           </DeleteButton>
 
-          {/* 저장된 아이디값이 item.id와 동일하면 모달창 보여짐 */}
-          {selectedId === item.id && (
-            <CheckModal>
-              <input
-                type="password"
-                placeholder="비밀번호"
-                maxLength={4}
-                onChange={(e) => setPasswordInput(e.target.value)}
-              />
-              <button
-                onClick={() => {
-                  removeGuestbook(item);
-                }}
-              >
-                확인
-              </button>
-              <button onClick={() => setSelectedId(null)}>취소</button>
-            </CheckModal>
-          )}
-        </ListItem>
-      ))}
+
+           {/* 저장된 아이디값이 item.id와 동일하면 모달창 보여짐 */}
+        {selectedId === item.id && (
+          <CheckModal>
+            <input
+              type="password"
+              placeholder="비밀번호"
+              maxLength={4}
+              onChange={(e) => setPasswordInput(e.target.value)}
+            />
+            <button
+              onClick={() => {
+                removeGuestbook(item);
+              }}
+            >
+              확인
+            </button>
+            <button onClick={closeModal}>취소</button>
+          </CheckModal>
+        )}
+        </ButtonWrap>
+       
+     
     </ListContainer>
   );
-}
+};
 
 export default GuestbookList;

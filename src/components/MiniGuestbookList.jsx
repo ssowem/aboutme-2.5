@@ -47,7 +47,7 @@ const ListItem = styled.div`
  
 `;
 
-function MiniGuestbookList() {
+const MiniGuestbookList = () => {
   return (
     <ListContainer>
       <ListItem>
