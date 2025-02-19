@@ -14,46 +14,69 @@ const Container = styled.div`
   margin: 0;
   display: flex;
   flex-direction: column;
-  font-size: 62.5%;
+  justify-content: center;
   overflow: hidden;
+
+  /* 태블릿 (601px ~ 1024px) */
+  @media (max-width: 1024px) {
+    background-color: lightcoral;
+  }
+
+  /* 모바일 (최대 600px) */
+  @media (max-width: 600px) {
+    background-color: lightblue;
+    /* padding: 1rem; */
+  }
 `;
 
 const MainText = styled.div`
-  padding: 10rem;
+  padding: 8rem;
   width: 100%;
   height: 50%;
   color: #fff;
+
+  /* 태블릿 (601px ~ 1024px) */
+  @media (max-width: 1024px) {
+    padding: 16rem 10rem;
+  }
+
+  /* 모바일 (최대 600px) */
+  @media (max-width: 600px) {
+    background-color: lightblue;
+    padding: 12rem 4rem;
+  }
 `;
 
 const MainTextLine1 = styled.div`
-  font-size: 6.2rem;
+  font-size: calc(1.4rem + 2.5vw);
   font-weight: 600;
 `;
 const MainTextLine2 = styled.div`
-  font-size: 6.2rem;
+  font-size: calc(1rem + 2.5vw);
   font-weight: 600;
 `;
+
 const MainTextLine3 = styled.div`
-  margin-top: 20px;
-  font-size: 28px;
+  margin-top: calc(0.2rem + 1vw);
+  font-size: calc(0.5rem + 1vw);
 `;
+
 const MainTextLine4 = styled.div`
-  font-size: 28px;
+  font-size: calc(0.5rem + 1vw);
 `;
 
 const Skills = styled.div`
   width: 100%;
   height: 50%;
-  /* background-color: #266194; */
 
   display: flex;
+  /* flex-direction: column; */
   position: relative;
 `;
 
 const SkillsLeft = styled.div`
-  width: 50%;
+  /* width: 50%; */
   height: 100%;
-  /* background-color: antiquewhite; */
   z-index: 9999;
   padding-left: 10rem;
 
@@ -61,22 +84,42 @@ const SkillsLeft = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 20px;
+
+  @media (max-width: 600px) {
+    padding-left: 4rem;
+    justify-content: flex-start;
+  }
 `;
 
-const SkillsRight = styled.div`
-  width: 50%;
+const GifImage = styled.div`
+  /* width: 50%; */
   height: 100%;
-
-  /* background-color: #8b8b1a; */
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   z-index: 9999;
+
+  bottom: 0;
+  right: 0;
+
   img {
-    width: 380px;
-    height: 380px;
+    width: calc(10rem + 15vw);
+    height: calc(10rem + 15vw);
     border-radius: 10px;
-    margin: 0 80px 100px 0;
+    margin-right: 8rem;
+
+  /* 태블릿 (601px ~ 1024px) */
+  @media (max-width: 1024px) {
+    /* width: 350px;
+    height: 350px; */
+  }
+
+  /* 모바일 (최대 600px) */
+  @media (max-width: 600px) {
+    
+  }
+
   }
 `;
 
@@ -84,6 +127,7 @@ const AnimatedContent = styled.div`
   position: absolute;
   top: 50%;
   transform: translate(0, -50%);
+  z-index: 9998;
 `;
 
 const FlowBox = styled.div`
@@ -92,6 +136,7 @@ const FlowBox = styled.div`
   height: 250px;
   overflow: hidden;
 `;
+
 const FlowWrap = styled.div`
   display: flex;
   top: 0;
@@ -129,7 +174,7 @@ const ItemBox = styled.div`
     display: inline-block;
     padding: 4px 16px;
     border-radius: 5px;
-    font-size: 20px;
+    font-size: calc(1rem + 0.5vw);
     color: #fff;
   }
 
@@ -140,11 +185,11 @@ const ItemBox = styled.div`
   }
 
   .item {
-    width: 80px;
-    height: 80px;
+    width: calc(3rem + 2vw);
+    height: calc(3rem + 2vw);
     background-color: #fff;
     border-radius: 10px;
-    padding: 14px;
+    padding: calc(0.3rem + 0.5vw)
   }
 
   img {
@@ -220,9 +265,9 @@ const Intro = () => {
             </ItemBox>
           </SkillsLeft>
 
-          <SkillsRight>
+          <GifImage>
             <img src="src/images/hello.gif" alt="프로필 이미지" />
-          </SkillsRight>
+          </GifImage>
 
           {/* 흐르는 텍스트 애니메이션 영역 */}
           <AnimatedContent>

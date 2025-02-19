@@ -7,6 +7,8 @@ import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import axios from 'axios';
 import { FiEdit3 } from 'react-icons/fi';
 import { RiEdit2Fill } from 'react-icons/ri';
+import { toast } from 'react-toastify';
+import { TbBackground } from 'react-icons/tb';
 
 const ListContainer = styled.div`
   display: flex;
@@ -123,6 +125,8 @@ const GuestbookList = ({ item, fetchGuestbook }) => {
   // 삭제모달에서 감지되는 비밀번호를 저장해준다.
   const [passwordInput, setPasswordInput] = useState('');
 
+   const notify = () => toast.error('방명록이 삭제되었습니다!');
+
   dayjs.extend(utc);
   dayjs.extend(timezone);
 
@@ -141,8 +145,9 @@ const GuestbookList = ({ item, fetchGuestbook }) => {
       });
       // debugger;
       console.log('삭제성공', response);
-
       fetchGuestbook();
+      notify();
+
     } catch (error) {
       console.error('오류', error);
     }

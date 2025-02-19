@@ -12,7 +12,7 @@ const LinkWrap = styled.div`
   display: flex;
   gap: 2rem;
 
-  font-size: 2rem;
+  font-size: calc(1.2rem + 0.5vw);
   font-family: 'Tektur', serif;
   text-decoration: none;
 
@@ -28,6 +28,12 @@ const LinkWrap = styled.div`
   .active {
     color: #fe8d1c;
   }
+
+  /* 모바일 (최대 600px) */
+  @media (max-width: 600px) {
+    /* font-size: 1.4rem; */
+  }
+
 `;
 
 const StickyNav = () => {

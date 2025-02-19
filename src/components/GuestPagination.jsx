@@ -45,7 +45,6 @@ const GuestPagination = ({
 
   //페이지가 바뀔때마다 방명록조회,시작끝번호 업데이트 함수 실행
   useEffect(() => {
-    fetchGuestbook();
     updateItemRange();
   }, [currentPage]);
 
@@ -90,7 +89,7 @@ const GuestPagination = ({
       setEndItem(end);
       return;
     }
-    
+
 
     // 현재페이지가 마지막페이지가 아닐때
     else {

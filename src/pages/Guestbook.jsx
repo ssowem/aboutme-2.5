@@ -5,6 +5,7 @@ import GuestbookList from '../components/GuestbookList';
 import PageTransition from './PageTransition';
 import GuestPagination from '../components/GuestPagination';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Container = styled.div`
   width: 100%;
@@ -50,6 +51,8 @@ const Guestbook = () => {
 
   const [totalPage, setTotalPage] = useState(0);
 
+  const notify = () => toast.success('방명록이 등록되었습니다!');
+
   useEffect(() => {
     fetchGuestbook();
   }, [currentPage]);
@@ -71,13 +74,10 @@ const Guestbook = () => {
     }
   };
 
-  useEffect(() => {
-    fetchGuestbook();
-    console.log(totalItems);
-  }, []);
-
   // 방명록 추가하는 함수 (POST 요청)
   const createGuestbook = async ({ nickname, message, password }) => {
+
+    debugger;
     const url = 'https://gateway.ssobility.me/api/v1/boards';
     const body = {
       content: message,
@@ -96,9 +96,12 @@ const Guestbook = () => {
 
       console.log('추가성공', response);
 
+      notify();
       fetchGuestbook();
+
     } catch (error) {
       console.error('오류', error);
+      toast.error('방명록 등록 실패!');
     }
   };
 
@@ -133,6 +136,8 @@ const Guestbook = () => {
             totalPage={totalPage}
           />
         )}
+
+        <ToastContainer position="top-right" autoClose={3000} />
       </Container>
     </PageTransition>
   );

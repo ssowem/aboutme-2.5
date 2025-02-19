@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import './App.css';
-import styled from '@emotion/styled';
 import Intro from './pages/intro';
 import Portfolio from './pages/Portfolio';
 import About from './pages/About';
-// import { throttle } from 'lodash';
-// import Sidebar from './components/Sidebar';
+
 import Guestbook from './pages/Guestbook';
-// import StickyNav from './components/StickyNav';
+
 import {
   BrowserRouter,
   Route,
@@ -15,7 +13,7 @@ import {
   useLocation,
   useNavigate,
 } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
+
 import { throttle } from 'lodash';
 import StickyNav from './components/StickyNav';
 
@@ -27,7 +25,6 @@ const ScrollNavigator = ({
   portfolioScrollIsStart,
   portfolioScrollIsEnd,
   setIsAboutVisible,
-  isAboutVisible,
 }) => {
   const navigate = useNavigate(); // 특정 Url로 이동할때 사용
   const location = useLocation(); // 현재 Url정보 가져옴 (location.pathname 사용하면 현재 어떤페이지인지 확인가능)
@@ -46,8 +43,6 @@ const ScrollNavigator = ({
       // 현재 페이지 인덱스 가져옴 [pages 배열에서 현재url(location.pathname)을 기준으로 인덱스를 찾음]
       const currentIndex = pages.indexOf(location.pathname);
 
-      // 휠 감지되면 사이드바 바로닫기
-      setIsSidebarVisible(false);
 
       // 아래로 스크롤(=다음페이지로 이동), 현재 인덱스가 마지막 페이지가 아니면 다음페이지 이동
       if (deltaY > 0 && currentIndex < pages.length - 1) {
@@ -104,9 +99,7 @@ const ScrollNavigator = ({
 };
 
 function App() {
-  console.log(location.pathname)
   
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
   const [isAboutVisible, setIsAboutVisible] = useState(false);
 
 
@@ -115,13 +108,6 @@ function App() {
   const [portfolioScrollIsEnd, setPortfolioScrollIsEnd] = useState(false);
   const [sevedScrollPosition, setSevedScrollPosition] = useState(null);
 
-  const handleSidebar = () => {
-    if (isSidebarVisible === false) {
-      setIsSidebarVisible(true);
-    } else {
-      setIsSidebarVisible(false);
-    }
-  };
 
   // 포트폴리오 영역 스크롤이 0인지 체크하는 함수
   const portFolioIsAtStart = (state) => {
@@ -138,7 +124,6 @@ function App() {
     <BrowserRouter>
       {/* 마우스 휠 감지를 위한 컴포넌트,   */}
       <ScrollNavigator
-        setIsSidebarVisible={setIsSidebarVisible}
         portfolioScrollIsStart={portfolioScrollIsStart}
         portfolioScrollIsEnd={portfolioScrollIsEnd}
         setIsAboutVisible={setIsAboutVisible}
@@ -147,7 +132,7 @@ function App() {
 
       <StickyNav />
 
-      <Sidebar onClick={handleSidebar} isSidebarVisible={isSidebarVisible} />
+      
 
       <Routes>
         <Route path="/" element={<Intro />} />
