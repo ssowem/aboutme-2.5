@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
 import { useEffect, useRef, useState } from 'react';
 import PageTransition from './PageTransition';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { LiaArrowLeftSolid, LiaArrowRightSolid } from 'react-icons/lia';
+import { style } from 'framer-motion/client';
 
 const Container = styled.div`
   background-color: #ffffff;
@@ -19,31 +22,75 @@ const Title = styled.div`
   color: #1a1a1a;
 `;
 
-const CardWrap = styled.div`
-  width: 100%;
-  height: 800px;
+const ContentWrap = styled.div`
+  /* border: 1px solid red; */
   display: flex;
-  gap: 2rem;
-
-  overflow: hidden;
-  /* margin-top: 1rem; */
+  margin-top: 10rem;
 `;
 
-const CardBox = styled.div`
+const PageWrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
 
+  .text {
+    font-size: 4em;
+    font-weight: 600;
+  }
+
+  .button-wrap {
+    display: flex;
+    gap: 1.5rem;
+
+    button {
+      cursor: pointer;
+      font-size: 4.5rem;
+
+      background-color: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .page-number {
+      font-size: 3rem;
+      font-weight: 600;
+      display: flex;
+      gap: 1rem;
+    }
+  }
+`;
+
+const CardWrap = styled.div`
+  /* width: 100%; */
+  width: 134rem;
+
+  height: auto;
+  overflow: hidden;
+  border: 2px solid #580cbb;
+
+  .swiper {
+    display: flex;
+    gap: 4rem;
+  }
+`;
+
+const CardBox = styled.div`
+  /* display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  border: 1px solid red; */
+  /* border: 1px solid red; */
+
   .card {
     overflow: hidden;
-    width: 720px;
+    width: 520px;
     height: 520px;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
     cursor: pointer;
     position: relative;
-    border: 1px solid #fff;
 
     .thumbnail {
       width: 100%;
@@ -149,228 +196,106 @@ const CardBox = styled.div`
   }
 `;
 
-const Portfolio = ({ portFolioIsAtStart, portFolioIsAtEnd , sevedScrollPosition, setSevedScrollPosition  }) => {
-  const CardWrapRef = useRef(null); // CardWrap(드래그할수있는 영역) 참조하
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0); // 드래그시작점 X축 좌표값
-  const [totalX, setTotalX] = useState(0);
-  const [scrollTransitionTimeout, setScrollTransitionTimeout] = useState(null);
-  // sevedScrollPosition값 변경될때마다 실행
+const cards = [
+  { id: 1, image: 'src/images/todolist.png' },
+  { id: 2, image: 'src/images/todolist.png' },
+  { id: 3, image: 'src/images/todolist.png' },
+  { id: 4, image: 'src/images/todolist.png' },
+  { id: 5, image: 'src/images/todolist.png' },
+  { id: 6, image: 'src/images/todolist.png' },
+];
+
+
+const Portfolio = () => {
+
+  const [index, setIndex] = useState(0);
+  const translateXValue = 56; // 슬라이드이동거리, gap 2rem포함됨
+  const carouselRef = useRef(null);
+
   useEffect(() => {
-    // 저장된스크롤값이있을때 && 스크롤할대상이있는지확인
-    if(sevedScrollPosition !== null && CardWrapRef.current) {
-      //현재가로스크롤위치에  저장된위치값을 줘서 이동시킴
-      CardWrapRef.current.scrollLeft = sevedScrollPosition;
+    if(index < 0) {
+      setIndex(cards.length - 1);
+    } else if(index >= cards.length) {
+      setIndex(0);
     }
-
-  },[sevedScrollPosition])
-
- 
-  const scrollChecker = () => {
-    // 스크롤 시작점0일때 앱컴포넌트로 true 업데이트,
-    // 스크롤 끝지점일때 앱컴포넌트로 true업데이트
-
-    // 스크롤 시작점 값 (시작점이 0일때 위로스크롤 가능하게함)
-    const xScrollValue = CardWrapRef.current.scrollLeft;
-
-    // 스크롤 가능한 전체너비의값을 저장하는 변수(전체가로길이,스크롤포함)
-    const TotalScrollWidth = CardWrapRef.current.scrollWidth;
-
-    // 현재화면에 보이는 가로길이를 저장하는 변수 (스크롤제외)
-    const visibleWidth = CardWrapRef.current.clientWidth;
-
-    // 스크롤이 끝나는 좌표값을 저장하는 변수
-    const scrollMaxX = TotalScrollWidth - visibleWidth;
-
-    const BUFFER = 20; // 끝에서 20px일때트리거
+  }, [index])
 
 
 
-    if (xScrollValue <= BUFFER) {
-      if (!scrollTransitionTimeout) {
-        setScrollTransitionTimeout(
-          setTimeout(() => {
-            portFolioIsAtStart(true);
-            setSevedScrollPosition(xScrollValue);
-          }, 300)
-        );
-      }
-    } else {
-      clearTimeout(scrollTransitionTimeout);
-      setScrollTransitionTimeout(null);
-      portFolioIsAtStart(false);
-    }
-
-
-    if (xScrollValue >= scrollMaxX - BUFFER) {
-      if (!scrollTransitionTimeout) {
-        setScrollTransitionTimeout(
-          setTimeout(() => {
-            portFolioIsAtEnd(true);
-            setSevedScrollPosition(xScrollValue);
-          }, 300)
-        );
-      }
-    } else {
-      clearTimeout(scrollTransitionTimeout);
-      setScrollTransitionTimeout(null);
-      portFolioIsAtEnd(false);
-    }
+  const handlePrevClick = () => {
+    setIndex((prev) => prev - 1);
   };
 
-  // 마우스 드래그 시작될때 동작
-  const onDragStart = (e) => {
-    setIsDragging(true); // 드래그중으로 상태업데이트
-    setStartX(e.clientX); // 시작 위치(X좌표) 를 저장
-    if (CardWrapRef.current) {
-      setTotalX(CardWrapRef.current.scrollLeft); // 카드랩 스크롤 위치를 저장
-    }
-  };
-
-  // 마우스가 드래그 될때 스크롤위치를 업데이트 시켜주는 동작
-  const onDragMove = (e) => {
-    // 드래그중이 아닐때 그대로 반환 (isDragging = false일때)
-    if (!isDragging) return;
-
-    // 드래그중일때 동작
-    const currentMouseX = e.clientX; // 현재 마우스 위치를 저장
-    const dragX = startX - currentMouseX; // 드래그 거리를 저장
-
-    if (CardWrapRef.current) {
-      // 스크롤 업데이트
-      CardWrapRef.current.scrollLeft = totalX + dragX;
-    }
-  };
-
-  // 드래그 끝났을때 isDragging 상태로 업데이트 시키는 동작
-  const onDragEnd = () => {
-    setIsDragging(false);
-  };
-
-  const onWheel = (e) => {
-    if (!CardWrapRef.current) return;
-    CardWrapRef.current.scrollLeft += e.deltaY * 0.5; // 세로 휠값을 가로스크롤로 적용, 스크롤 속도 0.8배 더 줄임;=
+  const handleNextClick = () => {
+    setIndex((prev) => prev + 1);
   };
 
   return (
-    <Container onWheel={onWheel}>
+    <Container>
       <PageTransition>
         <Title>Portpolio</Title>
 
-        <CardWrap
-          ref={CardWrapRef}
-          onScroll={scrollChecker}
-          onMouseDown={onDragStart}
-          onMouseMove={onDragMove}
-          onMouseUp={onDragEnd}
-          onMouseLeave={onDragEnd}
-        >
-          <CardBox>
-            <div className="card single">
-              <div className="thumbnail">
-                <img src="src/images/todolist.png" />
+        <ContentWrap>
+          <PageWrap>
+            <div className="text">열심히 준비해온 포트폴리오 입니다:)</div>
+
+            <div className="button-wrap">
+              <button>
+                <LiaArrowLeftSolid onClick={handlePrevClick} />
+              </button>
+
+              <div className="page-number">
+                <span className="total">6</span>
+                <span>/</span>
+                <span className="current">1</span>
               </div>
 
-              <div className="tag-box">
-                <span>TO DO LIST</span>
-
-                <div className="skills-wrap">
-                  <img src="src/images/react-js-icon.png" />
-                </div>
-              </div>
-
-              <div className="modal-box">
-                <span>📌Overveiw</span>
-
-                <p>
-                  리액트를 사용해서 만든 포트폴리오 입니다. 백엔드 api 협업
-                  경험이 있으며, 다양한 경험을 할 수 있었던 포트폴리오 중
-                  하나입니다
-                </p>
-              </div>
+              <button>
+                <LiaArrowRightSolid onClick={handleNextClick} />
+              </button>
             </div>
-          </CardBox>
+          </PageWrap>
 
-          <CardBox>
-            <div className="card">
-              <div className="thumbnail">
-                <img src="src/images/todolist.png" />
-              </div>
+          <CardWrap>
+            <div
+              className="swiper"
+              style={{
+                transform: `translate3d(-${translateXValue}rem, 0, 0)`,
+                transition: 'transform 0.5s ease-in-out'
+              }}
+              ref={carouselRef}
+            >
+              {cards.concat(cards).map((card, index) => (
+                <CardBox key={index}>
+                  <div className="card">
+                    <div className="thumbnail">
+                      <img src={card.image}/>
+                    </div>
 
-              <div className="tag-box">
-                <span>TO DO LIST</span>
+                    <div className="tag-box">
+                      <span>{index}. TO DO LIST</span>
 
-                <div className="skills-wrap">
-                  <img src="src/images/react-js-icon.png" />
-                </div>
-              </div>
+                      <div className="skills-wrap">
+                        <img src="src/images/react-js-icon.png" />
+                      </div>
+                    </div>
+
+                    <div className="modal-box">
+                      <span>📌Overveiw</span>
+
+                      <p>
+                        리액트를 사용해서 만든 포트폴리오 입니다. 백엔드 api
+                        협업 경험이 있으며, 다양한 경험을 할 수 있었던
+                        포트폴리오 중 하나입니다
+                      </p>
+                    </div>
+                  </div>
+                </CardBox>
+              ))}
+
             </div>
-          </CardBox>
-
-          <CardBox>
-            <div className="card">
-              <div className="thumbnail">
-                <img src="src/images/todolist.png" />
-              </div>
-
-              <div className="tag-box">
-                <span>TO DO LIST</span>
-
-                <div className="skills-wrap">
-                  <img src="src/images/react-js-icon.png" />
-                </div>
-              </div>
-            </div>
-          </CardBox>
-
-          <CardBox>
-            <div className="card">
-              <div className="thumbnail">
-                <img src="src/images/todolist.png" />
-              </div>
-
-              <div className="tag-box">
-                <span>TO DO LIST</span>
-
-                <div className="skills-wrap">
-                  <img src="src/images/react-js-icon.png" />
-                </div>
-              </div>
-            </div>
-          </CardBox>
-
-          <CardBox>
-            <div className="card">
-              <div className="thumbnail">
-                <img src="src/images/todolist.png" />
-              </div>
-
-              <div className="tag-box">
-                <span>TO DO LIST</span>
-
-                <div className="skills-wrap">
-                  <img src="src/images/react-js-icon.png" />
-                </div>
-              </div>
-            </div>
-          </CardBox>
-
-          <CardBox>
-            <div className="card">
-              <div className="thumbnail">
-                <img src="src/images/todolist.png" />
-              </div>
-
-              <div className="tag-box">
-                <span>TO DO LIST</span>
-
-                <div className="skills-wrap">
-                  <img src="src/images/react-js-icon.png" />
-                </div>
-              </div>
-            </div>
-          </CardBox>
-        </CardWrap>
+          </CardWrap>
+        </ContentWrap>
       </PageTransition>
     </Container>
   );
