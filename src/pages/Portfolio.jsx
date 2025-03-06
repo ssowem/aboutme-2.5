@@ -196,34 +196,71 @@ const CardBox = styled.div`
   }
 `;
 
+
+// 속임수 카드 앞뒤로 추가
 const cards = [
+  { id: 4, image: 'src/images/todolist.png' },
+  { id: 5, image: 'src/images/todolist.png' },
+  { id: 6, image: 'src/images/todolist.png' },
+
+  // 실제 카드들
   { id: 1, image: 'src/images/todolist.png' },
   { id: 2, image: 'src/images/todolist.png' },
   { id: 3, image: 'src/images/todolist.png' },
   { id: 4, image: 'src/images/todolist.png' },
   { id: 5, image: 'src/images/todolist.png' },
   { id: 6, image: 'src/images/todolist.png' },
+  // 실제 카드들
+
+  { id: 1, image: 'src/images/todolist.png' },
+  { id: 2, image: 'src/images/todolist.png' },
+  { id: 3, image: 'src/images/todolist.png' },
 ];
 
-
 const Portfolio = () => {
-
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(3); // 초기값3으로 지정하고, 실제카드 첫번째요소부터 보이게함
   const translateXValue = 56; // 슬라이드이동거리, gap 2rem포함됨
-  const carouselRef = useRef(null);
+
+  const [speed, setSpeed] = useState(500); // transition 시간 초기값
 
   useEffect(() => {
-    if(index < 0) {
-      setIndex(cards.length - 1);
-    } else if(index >= cards.length) {
-      setIndex(0);
+    console.log(index)
+    // 속임수카드 1일때 (인덱스값 9일때)
+    if (index === 9) {
+   
+      // 0.5초후에 실행
+      setTimeout(() => {
+
+        setSpeed(0); // transition 시간 0으로 변경하여 애니메이션 효과안보이게함
+        setIndex(3); // 실제카드 1로 변경
+
+        // 실제카드로 이동된후, 0.05 초후에 실행 
+        setTimeout(() => {
+          setSpeed(500); //다시 transition 0.5초로 되돌리기
+        }, 50);
+
+      }, 500);
     }
-  }, [index])
 
+    // 속임수 카드4 일때 (인덱스값 0일때)
+    if (index === 0) {
 
+      // 0.5초후에 실행
+      setTimeout(() => {
+        setSpeed(0); // transition 시간 0으로 변경하여 애니메이션 효과안보이게함
+        setIndex(6); // 실제카드 4로 변경 (인덱스값 6)
+
+        // 0.5초후에 실행
+        setTimeout(() => {
+          setSpeed(500); //다시 transition 0.5초로 되돌리기
+        }, 50);
+
+      }, 500);
+    }
+  });
 
   const handlePrevClick = () => {
-    setIndex((prev) => prev - 1);
+    setIndex((prev) => (prev === 0 ? cards.length - 1 : prev - 1));
   };
 
   const handleNextClick = () => {
@@ -247,7 +284,7 @@ const Portfolio = () => {
               <div className="page-number">
                 <span className="total">6</span>
                 <span>/</span>
-                <span className="current">1</span>
+                <span className="current">{((index - 3 + 6) % 6) + 1}</span>
               </div>
 
               <button>
@@ -260,39 +297,22 @@ const Portfolio = () => {
             <div
               className="swiper"
               style={{
-                transform: `translate3d(-${translateXValue}rem, 0, 0)`,
-                transition: 'transform 0.5s ease-in-out'
+                transform: `translate3d(-${index * translateXValue}rem, 0, 0)`,
+                transition: `transform ${speed}ms ease`,
               }}
-              ref={carouselRef}
             >
-              {cards.concat(cards).map((card, index) => (
+              {cards.map((card, index) => (
                 <CardBox key={index}>
                   <div className="card">
                     <div className="thumbnail">
-                      <img src={card.image}/>
+                      <img src={card.image} />
                     </div>
-
                     <div className="tag-box">
-                      <span>{index}. TO DO LIST</span>
-
-                      <div className="skills-wrap">
-                        <img src="src/images/react-js-icon.png" />
-                      </div>
-                    </div>
-
-                    <div className="modal-box">
-                      <span>📌Overveiw</span>
-
-                      <p>
-                        리액트를 사용해서 만든 포트폴리오 입니다. 백엔드 api
-                        협업 경험이 있으며, 다양한 경험을 할 수 있었던
-                        포트폴리오 중 하나입니다
-                      </p>
+                      <span>{card.id}. TO DO LIST</span>
                     </div>
                   </div>
                 </CardBox>
               ))}
-
             </div>
           </CardWrap>
         </ContentWrap>

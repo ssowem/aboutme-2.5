@@ -145,12 +145,14 @@ const GuestbookList = ({ item, fetchGuestbook }) => {
       });
       // debugger;
       console.log('삭제성공', response);
-      fetchGuestbook();
+    
       notify();
+      fetchGuestbook();
 
     } catch (error) {
       console.error('오류', error);
     }
+    
   };
 
   // 삭제 모달을 열어주는 함수
